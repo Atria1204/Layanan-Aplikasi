@@ -1,0 +1,573 @@
+/* General Styling */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+    color: #1f2937;
+    margin: 0;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header Section */
+.main-header {
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-blue {
+    color: #2563eb;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.logo-gray {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #1f2937;
+}
+
+.main-nav {
+    display: none;
+    gap: 1.5rem;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav-link {
+    color: #4b5563;
+    font-weight: 500;
+    transition-property: color, background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    text-decoration: none;
+}
+
+.main-nav-link:hover {
+    background-color: #e5e7eb;
+}
+
+/* Navbar Dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+}
+
+.dropdown-content a {
+    color: #1f2937;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f3f4f6;
+}
+
+.dropdown.show .dropdown-content {
+    display: block;
+}
+
+/* Tautan Navigasi Aktif */
+.main-nav-link.active {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.main-nav-link.active:hover {
+    background-color: #1d4ed8;
+    color: #ffffff;
+}
+
+.search-and-location {
+    display: none;
+    align-items: center;
+    gap: 1rem;
+}
+
+.search-input-container {
+    position: relative;
+}
+
+.search-input {
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    border-radius: 9999px;
+    border: 1px solid #d1d5db;
+    outline: none;
+    transition-property: border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.search-input:focus {
+    border-color: #2563eb;
+}
+
+.search-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+}
+
+.location-info {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.location-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #6b7280;
+}
+
+.location-text {
+    color: #374151;
+    font-weight: 600;
+}
+
+/* Hero Section */
+.hero-section {
+    background-size: cover;
+    background-position: center;
+    padding-top: 4rem;
+    padding-bottom: 6rem;
+    position: relative;
+    background-image: url('https://placehold.co/1920x1080/4F46E5/ffffff?text=Universitas+Surabaya');
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
+    height: 100%;
+}
+
+.hero-tag {
+    background-color: #ffffff;
+    color: #1f2937;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+    max-width: 42rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.primary-button {
+    background-color: #2563eb;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    transition-property: background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.primary-button:hover {
+    background-color: #1d4ed8;
+}
+
+.secondary-button {
+    background-color: #ffffff;
+    color: #2563eb;
+    font-weight: 600;
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    transition-property: background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.secondary-button:hover {
+    background-color: #f3f4f6;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+}
+
+/* Featured Events Section */
+.featured-events-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background-color: #ffffff;
+}
+
+.section-title-container {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.section-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+}
+
+.section-subtitle {
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+.event-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.event-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.event-card-content {
+    padding: 1.5rem;
+}
+
+.event-image-placeholder {
+    height: 12rem;
+    background-color: #f3f4f6;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+}
+
+.tag-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.tag {
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.tag-technology {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.tag-culture {
+    background-color: #e9d5ff;
+    color: #6d28d9;
+}
+
+.tag-sports {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.tag-academic {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.tag-featured {
+    background-color: #fcd34d;
+    color: #b45309;
+}
+
+.event-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.event-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+.event-details {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: #4b5563;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detail-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #9ca3af;
+}
+
+.rating-and-button {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rating-info {
+    display: flex;
+    align-items: center;
+    color: #fcd34d;
+    gap: 0.25rem;
+}
+
+.rating-star-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.rating-text {
+    color: #4b5563;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.rating-count {
+    color: #6b7280;
+    font-size: 0.75rem;
+}
+
+.detail-button {
+    background-color: #2563eb;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    transition-property: background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.detail-button:hover {
+    background-color: #1d4ed8;
+}
+
+/* All Events Section */
+.all-events-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background-color: #f9fafb;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.filter-button {
+    background-color: #e5e7eb;
+    color: #4b5563;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.load-more-button-container {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+.load-more-button {
+    background-color: #ffffff;
+    color: #2563eb;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    border: 1px solid #2563eb;
+    transition-property: background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.load-more-button:hover {
+    background-color: #eff6ff;
+}
+
+/* Footer Section */
+.main-footer {
+    background-color: #1f2937;
+    color: #e5e7eb;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 2rem;
+}
+
+.footer-column-title {
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+}
+
+.footer-nav-list {
+    font-size: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer-nav-link {
+    transition-property: color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    text-decoration: none;
+}
+
+.footer-nav-link:hover {
+    color: #ffffff;
+}
+
+.contact-info-list {
+    font-size: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.contact-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #9ca3af;
+}
+
+.footer-copyright {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-top: 2rem;
+    border-top: 1px solid #374151;
+    padding-top: 1rem;
+}
+
+/* Media Queries for Responsiveness */
+@media (min-width: 768px) {
+    .main-nav, .search-and-location {
+        display: flex;
+    }
+    .hero-title {
+        font-size: 3rem;
+    }
+    .footer-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
