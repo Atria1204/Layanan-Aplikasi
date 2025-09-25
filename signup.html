@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreelanceHub - SIGN UP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+  <style>
+    /* Tambahan kecil khusus indikator */
+    .password-requirements {
+      font-size: 13px;
+      margin-top: 6px;
+      color: #666;
+    }
+    .password-requirements li {
+      list-style: none;
+      margin: 2px 0;
+    }
+    .valid {
+      color: green;
+      font-weight: 600;
+    }
+    .invalid {
+      color: red;
+    }
+  </style>
+</head>
+<body class="page-container">
+  <div class="login-card">
+    <!-- Sisi Kiri (Formulir Signup) -->
+    <div class="login-form-container">
+      <div class="logo-section">
+        <img src="https://github.com/TREXBBQPANGGANG/fotologo/blob/main/Gemini_Generated_Image_degowmdegowmdego.png?raw=true" 
+     alt="Logo" 
+     width="32" 
+     height="32">
+        <span class="logo-text">KampusKonser</span>
+      </div>
+      <h1 class="heading">SIGN UP</h1>
+      <p class="sub-heading">Silahkan isi email dan password anda untuk mendaftar</p>
+
+      <!-- Form Signup -->
+      <form id="signup-form" class="form">
+  <div class="form-group">
+    <label for="signup-email" class="label">Email</label>
+    <input type="email" id="signup-email" name="email" placeholder="Masukkan Email Anda" class="input-field" required>
+  </div>
+
+  <div class="form-group">
+    <label for="signup-password" class="label">Kata Sandi</label>
+    <input type="password" id="signup-password" name="password" placeholder="Masukkan Kata Sandi" class="input-field" required>
+  </div>
+
+  <!-- Password requirements -->
+  <ul id="password-reqs" style="font-size:14px; margin-top:6px;">
+    <li id="req-length" class="invalid">Minimal 6 karakter</li>
+    <li id="req-upper" class="invalid">Mengandung huruf besar</li>
+    <li id="req-number" class="invalid">Mengandung angka</li>
+  </ul>
+
+  <div class="form-group">
+  <label for="signup-password2" class="label">Ulangi Kata Sandi</label>
+  <div style="display:flex; align-items:center; gap:8px;">
+    <input type="password" id="signup-password2" name="password2"
+      placeholder="Masukkan ulang kata sandi" class="input-field" required>
+    <span id="password-match-msg" style="font-size:13px;"></span>
+  </div>
+</div>
+
+
+  <button type="submit" class="submit-button">Sign Up</button>
+
+  <!-- Pesan signup -->
+  <p id="signup-message" style="margin-top:10px; font-size:14px; color:#555;"></p>
+</form>
+
+
+      <div class="login-link-container">
+        Sudah punya akun? <br>
+        <a href="index.html" class="login-link">Login</a>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="social-login-container">
+        <a href="https://www.instagram.com/tamimnugraha" class="social-icon-link">
+          <img src="https://img.freepik.com/free-vector/instagram-icon_1057-2227.jpg" alt="Instagram" class="social-icon">
+        </a>
+        <a href="mailto:tamimnugraha10@gmail.com" class="social-icon-link">
+          <img src="https://cdn.jsdelivr.net/npm/@mdi/svg/svg/email.svg" alt="Email" class="social-icon">
+        </a>
+        <a href="tel:+6281915101005" class="social-icon-link">
+          <img src="https://cdn.jsdelivr.net/npm/@mdi/svg/svg/phone.svg" alt="Hubungi Kami" class="social-icon">
+        </a>
+      </div>
+    </div>
+
+    <!-- Sisi Kanan (Visual) -->
+    <div class="visual-container">
+      <div class="visual-bg">
+        <img src="https://placehold.co/1200x800/8b5cf6/ffffff" alt="Latar belakang abstrak" class="visual-bg-image">
+      </div>
+      <div class="visual-card">
+        <h2 class="visual-heading">Event Surabaya</h2>
+        <p class="visual-text">Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+      </div>
+      <div class="carousel-dots">
+        <span class="dot active-dot"></span>
+        <span class="dot inactive-dot"></span>
+        <span class="dot inactive-dot"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script khusus signup -->
+  <script type="module" src="./src/signup.js"></script>
+</body>
+</html>
