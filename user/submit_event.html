@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Event - Surabaya Event Hub</title>
+    <link rel="stylesheet" href="submit_event.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="form-container">
+        <header class="form-header">
+            <h1>Submit Your Event</h1>
+            <p>Isi formulir di bawah untuk mendaftarkan event Anda di Surabaya Event Hub.</p>
+        </header>
+
+        <form action="#" method="POST">
+            <div class="form-section">
+                <h2>Detail Event</h2>
+                <div class="form-group">
+                    <label for="event-name">Nama Event</label>
+                    <input type="text" id="event-name" name="event-name" placeholder="Contoh: Surabaya Tech Conference 2025" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-description">Deskripsi Event</label>
+                    <textarea id="event-description" name="event-description" rows="4" placeholder="Jelaskan tentang event Anda..." required></textarea>
+                </div>
+                 <div class="form-group-inline">
+                    <div class="form-group">
+                        <label for="event-date">Tanggal & Waktu</label>
+                        <input type="datetime-local" id="event-date" name="event-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-category">Kategori</label>
+                        <select id="event-category" name="event-category" required>
+                            <option value="" disabled selected>Pilih Kategori</option>
+                            <option value="teknologi">Teknologi</option>
+                            <option value="musik">Musik</option>
+                            <option value="seni">Seni & Budaya</option>
+                            <option value="olahraga">Olahraga</option>
+                            <option value="kuliner">Kuliner</option>
+                            <option value="seminar">Seminar</option>
+                        </select>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="event-image">Poster Event</label>
+                    <input type="file" id="event-image" name="event-image" accept="image/*">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Detail Venue & Penyelenggara</h2>
+                <div class="form-group">
+                    <label for="venue-name">Nama Venue / Lokasi</label>
+                    <input type="text" id="venue-name" name="venue-name" placeholder="Contoh: Grand City Convex" required>
+                </div>
+                <div class="form-group">
+                    <label for="venue-address">Alamat Lengkap</label>
+                    <textarea id="venue-address" name="venue-address" rows="3" placeholder="Masukkan alamat lengkap lokasi event" required></textarea>
+                </div>
+                <div class="form-group-inline">
+                    <div class="form-group">
+                        <label for="organizer-name">Nama Penyelenggara</label>
+                        <input type="text" id="organizer-name" name="organizer-name" placeholder="Nama Anda atau organisasi Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="organizer-contact">Kontak (Email / No. HP)</label>
+                        <input type="text" id="organizer-contact" name="organizer-contact" placeholder="Email atau nomor yang bisa dihubungi" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" class="submit-btn">Kirim Pengajuan</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
