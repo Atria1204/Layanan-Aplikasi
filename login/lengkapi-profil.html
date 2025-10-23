@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lengkapi Profil Anda - EventsBy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="lengkapi-profil.css">
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>Satu Langkah Lagi</h1>
+            <p>Lengkapi profil Anda untuk mulai menjelajahi dunia event kampus.</p>
+        </div>
+
+        <form id="profile-form" class="profile-form">
+            <div class="form-group">
+                <label for="full_name">Nama Lengkap</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user input-icon"></i>
+                    <input id="full_name" name="full_name" type="text" required
+                           placeholder="Contoh: Budi Santoso" class="form-input">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="university">Asal Universitas</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-university input-icon"></i>
+                    <input id="university" name="university" type="text" required
+                           placeholder="Contoh: Universitas Airlangga" class="form-input">
+                </div>
+            </div>
+            
+            <div class="form-group" style="margin-top: 1rem;">
+                <button type="submit" id="submit-button" class="submit-button">
+                    Simpan dan Lanjutkan
+                </button>
+            </div>
+        </form>
+
+        <p id="error-message"></p>
+    </div>
+
+    <script type="module" src="../supabaseClient.js"></script>
+    <script type="module" src="../src/lengkapi-profil.js"></script>
+
+</body>
+</html>

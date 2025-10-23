@@ -13,6 +13,6 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     alert("Login gagal: " + error.message)
   } else {
     alert("Login sukses, selamat datang " + data.user.email)
-    window.location.href = "home.html"
+    window.location.href = "../main/home.html";
   }
 })

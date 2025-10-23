@@ -1,0 +1,163 @@
+/* --- Global & Font Setup --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f5f3ff, #eef2f5);
+    color: #1f2937;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 1rem;
+}
+
+/* --- Main Card Container --- */
+.profile-container {
+    width: 100%;
+    max-width: 30rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 2.5rem 3rem;
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* --- Header Section --- */
+.profile-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.profile-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    line-height: 1.2;
+}
+
+.profile-header p {
+    margin-top: 0.75rem;
+    color: #4b5563;
+    font-size: 1rem;
+}
+
+/* --- Form Styling --- */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+.form-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3.25rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.75rem;
+    background-color: #f9fafb;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
+    font-size: 1rem;
+}
+
+.form-input::placeholder {
+    color: #9ca3af;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(199, 210, 254, 0.6);
+}
+
+/* --- Button Sterbfwebruiebwyling --- */
+.submit-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 1.25rem;
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background-image: linear-gradient(to right, #4f46e5, #6d28d9);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.submit-button:disabled {
+    background-image: linear-gradient(to right, #a5b4fc, #c4b5fd);
+    cursor: not-allowed;
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* --- Error Message --- */
+#error-message {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #ef4444;
+    font-weight: 500;
+    min-height: 1.25rem;
+}
+
+/* --- Desain Responsif untuk Layar Kecil --- */
+@media (max-width: 480px) {
+    .profile-container {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .profile-header h1 {
+        font-size: 2rem;
+    }
+
+    .profile-header p {
+        font-size: 0.875rem;
+    }
+}

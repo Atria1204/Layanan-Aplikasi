@@ -585,3 +585,18 @@ body {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 }
+
+/* Tambahkan ini di homestyle.css jika belum ada */
+.login-btn {
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 8px; /* Menyamakan dengan tombol lain */
+    border: none;
+}
+
+.user-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
