@@ -22,26 +22,8 @@
 
         .partner-button:hover {
             color: #f9fafb;
-            background-color: #402cf5;
+            background-color: #4338CA;
             border-color: #adb5bd;
-        }
-        
-        .login-button {
-            background-color: #402cf5;
-            color: #f9fafb;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            padding: 10px 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .login-button:hover {
-            color: #f9fafb;
-            background-color: #402cf5;
-            border-color: #adb5bd;
-            transform: scale(1.07);
         }
     </style>
     
@@ -49,7 +31,7 @@
 <body>
 
     <header class="main-header">
-        <nav class="nav-container main-container">
+        <nav class="header-content">
             <div class="logo">
                 <span class="logo-blue">Events</span><span class="logo-gray">Sby</span>
             </div>
@@ -71,7 +53,7 @@
                     <input type="text" placeholder="Cari event..." class="search-input">
                     <i class="fas fa-search search-icon"></i>
                 </div>
-                <button class="login-button" onclick="window.location.href='/login/login.html'">Login</button>
+                <button class="login-btn" onclick="window.location.href='/login/login.html'">Login</button>
                 <button class="partner-button" onclick="window.location.href='/login/login.html'" >Masuk Partner</button>
                 
             </div>
