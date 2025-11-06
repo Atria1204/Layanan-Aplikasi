@@ -336,3 +336,39 @@ body {
     }
 }
 
+/* --- PERBAIKAN UNTUK GAMBAR EVENT --- */
+
+/* Ini adalah kontainer untuk gambar */
+.event-image-container {
+    height: 200px; /* Atur tinggi tetap untuk semua kartu */
+    width: 100%;
+    overflow: hidden; /* Sembunyikan bagian gambar yang berlebih */
+    background-color: #f3f4f6; /* Warna latar jika gambar gagal dimuat */
+    border-radius: 8px 8px 0 0; /* Sesuaikan jika perlu */
+}
+
+/* Ini adalah tag <img> di dalam kontainer */
+.event-image {
+    width: 100%;
+    height: 100%;
+    
+    /* Perintah ajaib: 
+       - Memastikan gambar mengisi penuh kontainer
+       - Menjaga rasio aspek (tidak gepeng)
+       - Memotong (crop) sisa gambar yang tidak muat
+    */
+    object-fit: cover; 
+}
+
+/* Ini adalah style untuk placeholder jika tidak ada gambar */
+.event-image-placeholder {
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e5e7eb;
+    color: #9ca3af;
+    font-size: 2.5rem; /* Ukuran ikon */
+    border-radius: 8px 8px 0 0;
+}

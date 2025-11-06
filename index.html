@@ -8,25 +8,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="main/homestyle.css">
     <style>
-
         .partner-button {
-            background-color: #f9fafb;
-            color: #373737;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            padding: 10px 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s;
+            background-color: #f9fafb; color: #373737; border: 1px solid #d1d5db;
+            border-radius: 8px; padding: 8px 14px; font-weight: 600;
+            cursor: pointer; transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+            font-size: 14px;
         }
-
         .partner-button:hover {
-            color: #f9fafb;
-            background-color: #4338CA;
-            border-color: #adb5bd;
+            color: #f9fafb; background-color: #4338CA; border-color: #adb5bd;
         }
+        .login-btn {
+            background-color: #4F46E5; color: white; border: none;
+            border-radius: 8px; padding: 8px 14px; font-weight: 600;
+            cursor: pointer; transition: background-color 0.2s;
+            font-size: 14px; text-decoration: none; white-space: nowrap;
+        }
+        .login-btn:hover { background-color: #4338CA; }
+        .user-section { position: relative; display: flex; align-items: center; }
     </style>
-    
 </head>
 <body>
 
@@ -36,7 +35,7 @@
                 <span class="logo-blue">Events</span><span class="logo-gray">Sby</span>
             </div>
             <ul class="main-nav">
-                <li><a href="#" class="main-nav-link active">Beranda</a></li>
+                <li><a href="main/home.html" class="main-nav-link active">Beranda</a></li>
                 <li class="dropdown" id="kategori-dropdown">
                     <a href="#" class="main-nav-link" id="kategori-link">Kategori</a>
                     <div class="dropdown-content">
@@ -53,9 +52,23 @@
                     <input type="text" placeholder="Cari event..." class="search-input">
                     <i class="fas fa-search search-icon"></i>
                 </div>
-                <button class="login-btn" onclick="window.location.href='/login/login.html'">Login</button>
-                <button class="partner-button" onclick="window.location.href='/login/login.html'" >Masuk Partner</button>
                 
+                <div id="user-section" class="user-section">
+                    <div id="logged-out-buttons" class="flex items-center space-x-2">
+                         <button class="login-btn" onclick="window.location.href='/login/login.html'">Login</button>
+                         <button class="partner-button" onclick="window.location.href='/login/login.html'">Masuk Partner</button>
+                    </div>
+                    
+                    <a href="/login/lengkapi-profil.html" id="complete-profile-button" class="login-btn" style="display: none;">Lengkapi Profil</a>
+
+                    <div class="dropdown" id="user-profile-dropdown" style="display: none;">
+                        <img src="https://placehold.co/40x40/6366f1/ffffff?text=U" alt="User Profile" class="user-profile-icon" id="user-profile-icon">
+                        <div class="dropdown-content">
+                            <a href="/user/dashboard.html">Dashboard</a> 
+                            <a href="#" id="logout-button">Logout</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
@@ -72,23 +85,7 @@
                     <button class="secondary-button">Gabung Komunitas</button>
                 </div>
                 <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label">Event Aktif</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number">15+</div>
-                        <div class="stat-label">Universitas</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">1000+</div>
-                        <div class="stat-label">Peserta</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">4.8</div>
-                        <div class="stat-label">Rating</div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -96,113 +93,19 @@
             <div class="main-container">
                 <div class="section-title-container">
                     <h2 class="section-title">Event Unggulan</h2>
-                    <p class="section-subtitle">Event-event pilihan dengan rating tertinggi dan paling diminati mahasiswa</p>
+                    <p class="section-subtitle">Event-event pilihan...</p>
                 </div>
-                <div class="event-card-container">
-                    <div class="event-card">
-                        <div class="event-card-content">
-                            <div class="card-body">
-                                <div class="event-image-placeholder">Gambar Event</div>
-                                <div class="tag-container">
-                                    <span class="tag tag-technology">Teknologi</span>
-                                    <span class="tag tag-featured">Featured</span>
-                                </div>
-                                <h3 class="event-title">Tech Summit Surabaya 2024</h3>
-                                <p class="event-description">Konferensi teknologi terbesar di Surabaya dengan speaker dari perusahaan tech ternama</p>
-                                <div class="event-details">
-                                    <div class="detail-item"><i class="far fa-calendar-alt detail-icon"></i><span>Jumat, 15 Maret 2024</span></div>
-                                    <div class="detail-item"><i class="fas fa-map-marker-alt detail-icon"></i><span>ITS Campus, Surabaya</span></div>
-                                    <div class="detail-item"><i class="fas fa-university detail-icon"></i><span>Institut Teknologi Sepuluh Nopember</span></div>
-                                </div>
-                            </div>
-                            <div class="rating-and-button">
-                                <div class="rating-info">
-                                    <i class="fas fa-star rating-star-icon"></i>
-                                    <span class="rating-text">4.8</span>
-                                    <span class="rating-count">(125)</span>
-                                </div>
-                                <button class="detail-button">Lihat Detail</button>
-                            </div>
-                        </div>
+                <div id="featured-events-container" class="event-card-container">
                     </div>
-                    <div class="event-card">
-                        <div class="event-card-content">
-                            <div class="card-body">
-                                <div class="event-image-placeholder">Gambar Event</div>
-                                <div class="tag-container">
-                                    <span class="tag tag-culture">Seni & Budaya</span>
-                                    <span class="tag tag-featured">Featured</span>
-                                </div>
-                                <h3 class="event-title">Festival Seni Budaya Nusantara</h3>
-                                <p class="event-description">Festival seni dan budaya menampilkan keberagaman budaya Indonesia</p>
-                                <div class="event-details">
-                                    <div class="detail-item"><i class="far fa-calendar-alt detail-icon"></i><span>Jumat, 22 Maret 2024</span></div>
-                                    <div class="detail-item"><i class="fas fa-map-marker-alt detail-icon"></i><span>Universitas Airlangga, Surabaya</span></div>
-                                    <div class="detail-item"><i class="fas fa-university detail-icon"></i><span>Universitas Airlangga</span></div>
-                                </div>
-                            </div>
-                            <div class="rating-and-button">
-                                <div class="rating-info">
-                                    <i class="fas fa-star rating-star-icon"></i>
-                                    <span class="rating-text">4.6</span>
-                                    <span class="rating-count">(89)</span>
-                                </div>
-                                <button class="detail-button">Lihat Detail</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="event-card">
-                        <div class="event-card-content">
-                            <div class="card-body">
-                                <div class="event-image-placeholder">Gambar Event</div>
-                                <div class="tag-container">
-                                    <span class="tag tag-sports">Olahraga</span>
-                                    <span class="tag tag-featured">Featured</span>
-                                </div>
-                                <h3 class="event-title">Turnamen E-Sports Universitas</h3>
-                                <p class="event-description">Turnamen e-sports antar universitas dengan total hadiah 50 juta rupiah</p>
-                                <div class="event-details">
-                                    <div class="detail-item"><i class="far fa-calendar-alt detail-icon"></i><span>Sabtu, 30 Maret 2024</span></div>
-                                    <div class="detail-item"><i class="fas fa-map-marker-alt detail-icon"></i><span>Universitas Kristen Petra, Surabaya</span></div>
-                                    <div class="detail-item"><i class="fas fa-university detail-icon"></i><span>Universitas Kristen Petra</span></div>
-                                </div>
-                            </div>
-                            <div class="rating-and-button">
-                                <div class="rating-info">
-                                    <i class="fas fa-star rating-star-icon"></i>
-                                    <span class="rating-text">4.9</span>
-                                    <span class="rating-count">(156)</span>
-                                </div>
-                                <button class="detail-button">Lihat Detail</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
         <section class="all-events-section">
             <div class="main-container">
                 <div class="section-header">
-                    <div>
-                        <h2 class="section-title">Semua Event</h2>
-                        <p class="section-subtitle">Jelajahi seluruh event yang tersedia di Surabaya</p>
                     </div>
-                    <div class="filter-buttons">
-                        <button class="filter-button">Filter</button>
-                        <button class="filter-button">Urutkan</button>
+                <div id="all-events-container" class="event-card-container">
                     </div>
-                </div>
-                <div class="event-card-container">
-                    <div class="event-card">
-                        </div>
-                    <div class="event-card">
-                        </div>
-                    <div class="event-card">
-                        </div>
-                    <div class="event-card">
-                        </div>
-                </div>
                 <div class="load-more-button-container">
                     <button class="load-more-button">Muat Lebih Banyak Event</button>
                 </div>
@@ -210,65 +113,25 @@
         </section>
 
         <footer class="main-footer">
-            <div class="main-container">
-                <div class="footer-grid">
-                    <div>
-                        <div class="logo">
-                            <span class="logo-blue">Events</span><span class="logo-gray text-white">Sby</span>
-                        </div>
-                        <p class="text-sm mt-4">Platform terdepan untuk menemukan event kampus terbaik di Surabaya</p>
-                    </div>
-                    <div>
-                        <h4 class="footer-column-title">Kategori</h4>
-                        <ul class="footer-nav-list">
-                            <li><a href="#" class="footer-nav-link">Teknologi</a></li>
-                            <li><a href="#" class="footer-nav-link">Seni & Budaya</a></li>
-                            <li><a href="#" class="footer-nav-link">Olahraga</a></li>
-                            <li><a href="#" class="footer-nav-link">Akademik</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="footer-column-title">Universitas</h4>
-                        <ul class="footer-nav-list">
-                            <li><a href="#" class="footer-nav-link">ITS</a></li>
-                            <li><a href="#" class="footer-nav-link">Universitas Airlangga</a></li>
-                            <li><a href="#" class="footer-nav-link">Universitas Surabaya</a></li>
-                            <li><a href="#" class="footer-nav-link">UK Petra</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="footer-column-title">Kontak</h4>
-                        <div class="contact-info-list">
-                            <p class="contact-item"><i class="fas fa-map-marker-alt contact-icon"></i><span>Surabaya, Jawa Timur</span></p>
-                            <p class="contact-item"><i class="fas fa-envelope contact-icon"></i><span>info@eventsby.com</span></p>
-                            <p class="contact-item"><i class="fas fa-phone contact-icon"></i><span>+62 812 3456 7890</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-copyright">
-                    © 2024 EventsBy. Semua hak cipta dilindungi.
-                </div>
-            </div>
-        </footer>
+            </footer>
     </main>
 
     <script>
-        // JS for Kategori Dropdown
         const kategoriLink = document.getElementById('kategori-link');
         const kategoriDropdown = document.getElementById('kategori-dropdown');
-
         kategoriLink.addEventListener('click', function(event) {
             event.preventDefault();
             kategoriDropdown.classList.toggle('show');
         });
-
         window.addEventListener('click', function(event) {
             if (!event.target.closest('#kategori-dropdown')) {
                 kategoriDropdown.classList.remove('show');
             }
-        })
+        });
     </script>
     
+    <script type="module" src="/supabaseClient.js"></script>
+    <script type="module" src="/src/home.js"></script>
 
 </body>
 </html>
