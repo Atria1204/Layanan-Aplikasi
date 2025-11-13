@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+
+/* TAMBAHKAN INI DI PALING ATAS login.css */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 /* General Styling */
 body {
     font-family: 'Inter', sans-serif;
@@ -6,12 +13,39 @@ body {
     margin: 0;
 }
 
+/* Ganti/tambahkan ini di .page-container atau body */
 .page-container {
-    display: flex;
+  /* ... properti lama kamu (seperti display: flex, align-items, etc.) JANGAN DIHAPUS ... */
+  display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     padding: 1rem;
+  /* --- Tambahkan ini --- */
+  
+  /* 1. Buat gradasi dengan warna-warna pastel yang lembut */
+  /* Kita pakai 4 warna agar pergerakannya halus */
+  background: linear-gradient(-45deg, #e8e6f8, #f0e9f8, #f3f0ff, #e6f0fa);
+  
+  /* 2. Buat ukuran background JAUH LEBIH BESAR dari layar */
+  background-size: 400% 400%;
+  
+  /* 3. Terapkan animasi bernama 'gradient-flow' */
+  animation: gradient-flow 15s ease-in-out infinite;
+}
+
+/* 4. Definisikan animasinya (Keyframes) */
+/* Tambahkan ini di bagian bawah file CSS kamu */
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .login-card {
@@ -50,6 +84,19 @@ body {
     font-weight: 700;
 }
 
+.logo-blue {
+    color: #6366F1; /* Warna ungu dari screenshot */
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.logo-gray {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #1f2937;
+}
+
+
 .heading {
     font-size: 1.5rem;
     font-weight: 700;
@@ -73,14 +120,21 @@ body {
 }
 
 .label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #374151;
+  /* Ukuran dan berat font */
+  font-size: 14px;
+  font-weight: 500; /* Sedikit tebal (medium), tidak 700 (bold) */
+  font-family: 'Inter', sans-serif;
+  
+  /* Warna & Jarak */
+  color: #333333; /* Abu-abu tua, lebih 'soft' dari hitam pekat */
+  display: block; /* Pastikan dia di atas input */
+  margin-bottom: 6px; /* Beri jarak sedikit ke kotak input */
 }
 
+/* Style dasar untuk input-field */
 .input-field {
-    margin-top: 0.25rem;
+  /* ... properti lama kamu (seperti width: 100%, dll) ... */
+  margin-top: 0.25rem;
     display: block;
     width: 100%;
     border-radius: 0.5rem;
@@ -89,11 +143,32 @@ body {
     padding: 0.5rem 0.75rem;
     outline: 2px solid transparent;
     outline-offset: 2px;
+  /* Hapus border standar, ganti dengan background lembut */
+  border: 1px solid #e0e0e0; /* Border abu-abu tipis */
+  background-color: #fafafa;   /* Background sedikit abu-abu */
+  
+  /* Beri sedikit lengkungan dan padding */
+  border-radius: 8px;
+  padding: 14px 16px; /* Buat lebih 'lega' */
+  font-size: 16px;
+  
+  /* Hapus outline biru standar saat di-klik */
+  outline: none;
+  
+  /* Ini kuncinya: transisi yang mulus! */
+  transition: all 0.3s ease-in-out;
 }
 
+/* EFEK SAAT DI-KLIK (FOKUS) */
 .input-field:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 1px #6366f1;
+  /* Ganti warna border jadi warna brand kamu (ungu) */
+  border-color: #8b5cf6; /* Sesuaikan warna ungunya jika perlu */
+  
+  /* Beri 'glow' (bayangan) dengan warna yang sama */
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+  
+  /* Kembalikan background jadi putih bersih */
+  background-color: #ffffff;
 }
 
 .input-with-icon {
@@ -115,45 +190,81 @@ body {
     height: 1.25rem;
 }
 
+/* Ganti/tambahkan style .submit-button kamu */
 .submit-button {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 9999px;
-    font-weight: 600;
-    color: #ffffff;
-    background-color: #7c3aed;
-    transition-property: background-color;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-    border: none;
-    cursor: pointer;
+  /* Hapus border bawaan */
+  border: none;
+  
+  /* Bentuk & Ukuran */
+  width: 100%;
+  padding: 14px 16px; /* Samakan dengan input agar rapi */
+  border-radius: 10px; /* Sedikit lebih bulat dari input */
+  
+  /* Font */
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600; /* Semi-bold */
+  color: #ffffff;
+  
+  /* KUNCI UTAMA: Warna & Shadow */
+  /* Buat gradasi yang 'hidup' */
+  background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+  
+  /* Shadow 'glow' modern, pakai warna tombolnya, bukan hitam */
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+  
+  /* Kursor & Transisi */
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
+/* EFEK SAAT MOUSE DI ATAS (HOVER) */
 .submit-button:hover {
-    background-color: #6d28d9;
+  /* Sedikit 'mengangkat' tombolnya */
+  transform: translateY(-3px);
+  
+  /* Perjelas 'glow'nya */
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
 }
 
+/* EFEK SAAT DI-KLIK (ACTIVE) */
+.submit-button:active {
+  /* Buat tombol terlihat 'ditekan' */
+  transform: translateY(1px);
+  
+  /* Redupkan shadow saat ditekan */
+  box-shadow: 0 2px 5px rgba(139, 92, 246, 0.2);
+}
+
+/* Style untuk kontainer "Belum punya akun?" */
 .login-link-container {
-    margin-top: 1.5rem;
-    text-align: center;
-    font-size: 0.875rem;
+  text-align: center;
+  font-size: 14px;
+  color: #555; /* Warna teks biasa */
+  line-height: 1.6; /* Beri spasi untuk <br> */
+  margin-top: 24px; /* Beri jarak dari form */
 }
 
+/* Style untuk link "Sign Up" nya */
 .login-link {
-    font-weight: 500;
-    color: #7c3aed;
-    transition-property: color;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
+  color: #8b5cf6; /* Warna brand kamu */
+  font-weight: 600; /* Buat menonjol */
+  text-decoration: none; /* Hapus underline bawaan */
+  transition: all 0.2s ease;
 }
 
 .login-link:hover {
-    color: #6d28d9;
+  /* Gelapkan sedikit warnanya saat di-hover */
+  color: #6d28d9; 
+  
+  /* Tampilkan underline saat di-hover sebagai feedback */
+  text-decoration: underline;
 }
 
 .separator {
     position: relative;
     margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     text-align: center;
 }
 
@@ -178,25 +289,35 @@ body {
 }
 
 .social-login-container {
-    margin-top: 1.5rem;
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
+  /* ... (mungkin sudah ada) ... */
+  display: flex;
+  justify-content: center;
+  gap: 16px; /* Beri jarak antar ikon */
 }
 
 .social-icon-link {
-    transition-property: transform;
-    transition-duration: 150ms;
-    transition-timing-function: ease-in-out;
-}
-
-.social-icon-link:hover {
-    transform: scale(1.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Buat bulat */
+  border-radius: 50%;
+  width: 44px;  /* Ukuran kontainer */
+  height: 44px; /* Ukuran kontainer */
+  
+  background-color: #f5f5f5; /* Background abu-abu */
+  transition: all 0.2s ease;
 }
 
 .social-icon {
-    width: 2rem;
-    height: 2rem;
+  width: 24px;  /* Ukuran ikon di dalamnya */
+  height: 24px; /* Ukuran ikon di dalamnya */
+}
+
+/* Efek saat mouse di atas ikon */
+.social-icon-link:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.1); /* Sedikit membesar */
 }
 
 /* Visual Section */
@@ -238,13 +359,55 @@ body {
 }
 
 .visual-heading {
-    font-size: 1.875rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
+  font-family: 'Poppins', 'Inter', sans-serif;
+  font-size: 2.8rem; /* Sedikit lebih besar untuk efek dramatis */
+  font-weight: 800; /* Extra-bold */
+  margin-bottom: 12px;
+
+  /* --- Bagian Ajaibnya --- */
+  
+  /* 1. Buat background gradasi */
+  background: linear-gradient(145deg, #FFFFFF, #c0c0c0);
+  
+  /* 2. Potong background SEBENTUK teksnya */
+  -webkit-background-clip: text;
+  background-clip: text;
+  
+  /* 3. Buat warna teks aslinya jadi transparan */
+  color: transparent;
+  
+  /* 4. Beri shadow tipis agar tetap terbaca */
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Sesuaikan style untuk paragraf di bawah heading */
 .visual-text {
-    font-size: 0.875rem;
+  /* Kita tetap pakai Inter, ini font yang bagus untuk paragraf */
+  font-family: 'Inter', sans-serif;
+  
+  /* Ukuran 16px */
+  font-size: 1rem; 
+  
+  /* Berat font normal (regular) */
+  font-weight: 400; 
+  
+  /* RAHASIANYA: 
+    Jangan pakai putih solid (#FFFFFF). Pakai putih dengan 
+    transparansi 90% (rgba(255, 255, 255, 0.9)). 
+    Ini membuatnya terlihat "lebih lembut" dibanding heading-nya. 
+  */
+  color: rgba(255, 255, 255, 0.9);
+  
+  /* Jarak antar baris agar nyaman dibaca */
+  line-height: 1.6; 
+  
+  /* Bayangan SANGAT tipis agar 'terangkat' dari background */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  
+  /* Jaga agar teks tidak terlalu lebar */
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .carousel-dots {
