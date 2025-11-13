@@ -9,8 +9,9 @@
     
     <link rel="stylesheet" href="/main/homestyle.css"> 
     <link rel="stylesheet" href="/main/detailstyle.css">
+    
     <style>
-        /* Style untuk tombol login dinamis */
+        /* CSS Tambahan untuk tombol login dinamis */
         .login-btn, .partner-button {
             background-color: #4F46E5; color: white; border: none;
             border-radius: 8px; padding: 8px 14px; font-weight: 600;
@@ -68,9 +69,9 @@
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
         
-        <div id="event-detail-content" class="event-detail-container" style="display: none;">
+        <div id="event-detail-content" class="event-detail-container">
             <div class="event-main-content">
-                <div id="event-image" class="event-image-placeholder-large">
+                <div id="event-image" class="event-image">
                     <i class="fas fa-image"></i>
                 </div>
                 <div id="event-tags" class="tag-container detail-tags"></div>
@@ -102,36 +103,28 @@
                     <h2 class="section-heading">Deskripsi Event</h2>
                     <p id="event-description">Memuat deskripsi...</p>
                 </div>
-                <div class="content-section">
-                    <h2 class="section-heading">Komentar & Rating</h2>
-                    <div class="comment-card">
-                         <img src="https://placehold.co/40x40/E5E7EB/4B5563?text=G" alt="User Avatar" class="comment-avatar">
-                         <div class="comment-body">
-                             <div class="comment-header">
-                                 <span class="comment-user">Gaming Pro</span>
-                                 <div class="comment-rating">
-                                     <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                 </div>
-                             </div>
-                             <p class="comment-text">Turnamen yang sangat seru! Organizernya profesional dan hadiahnya juga menarik.</p>
-                             <span class="comment-date">25/2/2024</span>
-                         </div>
-                    </div>
-                </div>
             </div>
 
             <aside class="event-sidebar">
                 <div class="action-card">
-                    <h3>Ikuti Event</h3>
-                    <button class="action-btn primary">Daftar Sekarang</button>
-                    <button class="action-btn secondary">Simpan Event</button>
-                    <button class="action-btn tertiary">Bagikan</button>
-                </div>
-                <div class="action-card">
-                    <h3>Media Sosial</h3>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-instagram"></i> Instagram <i class="fas fa-external-link-alt"></i>
-                    </a>
+                    <h3>Pendaftaran & Kontak</h3>
+                    <button id="register-button" class="action-btn primary">Tampilkan Kontak Pendaftaran</button>
+                    <div id="contact-info" style="display: none; margin-top: 1rem;">
+                        <div class="info-item" style="margin-bottom: 1rem;">
+                            <i class="fas fa-user info-icon"></i>
+                            <div>
+                                <p class="info-label">Penyelenggara</p>
+                                <p id="sidebar-organizer-name" class="info-data">Memuat...</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone info-icon"></i>
+                            <div>
+                                <p class="info-label">Kontak (CP)</p>
+                                <p id="sidebar-organizer-contact" class="info-data">Memuat...</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </aside>
         </div>
@@ -143,12 +136,7 @@
     </main>
 
     <footer class="main-footer">
-        <div class="container">
-            <div class="footer-copyright" style="text-align: center; width: 100%; border-top: none; padding-top: 0;">
-                © 2024 EventsBy. Semua hak cipta dilindungi.
-            </div>
-        </div>
-    </footer>
+        </footer>
 
     <script type="module" src="/supabaseClient.js"></script>
     <script type="module" src="/src/event-detail.js"></script>

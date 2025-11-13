@@ -6,7 +6,24 @@
     <title>EventsBy</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="homestyle.css">
+    <link rel="stylesheet" href="/main/homestyle.css">
+    <style>
+        .login-btn, .partner-button {
+            background-color: #4F46E5; color: white; border: none;
+            border-radius: 8px; padding: 8px 14px; font-weight: 600;
+            cursor: pointer; transition: background-color 0.2s;
+            font-size: 14px; text-decoration: none; white-space: nowrap;
+        }
+        .login-btn:hover { background-color: #4338CA; }
+        .partner-button {
+            background-color: #f9fafb; color: #373737; border: 1px solid #d1d5db;
+        }
+        .partner-button:hover {
+            color: #f9fafb; background-color: #4338CA; border-color: #adb5bd;
+        }
+        .user-section { position: relative; display: flex; align-items: center; }
+        #search-icon { cursor: pointer; } 
+    </style>
 </head>
 <body>
 
@@ -21,18 +38,21 @@
                     <li class="dropdown" id="kategori-dropdown">
                         <a href="#" class="main-nav-link" id="kategori-link">Kategori</a>
                         <div class="dropdown-content">
-                            <a href="#">Teknologi</a>
-                            <a href="#">Seni & Budaya</a>
-                            <a href="#">Olahraga</a>
-                            <a href="#">Akademik</a>
+                            <a href="#" class="category-filter" data-category="all">Semua Kategori</a>
+                            <a href="#" class="category-filter" data-category="teknologi">Teknologi</a>
+                            <a href="#" class="category-filter" data-category="seni">Seni & Budaya</a>
+                            <a href="#" class="category-filter" data-category="olahraga">Olahraga</a>
+                            <a href="#" class="category-filter" data-category="akademik">Akademik</a>
+                            <a href="#" class="category-filter" data-category="musik">Musik</a>
+                            <a href="#" class="category-filter" data-category="seminar">Seminar</a>
                         </div>
                     </li>
                     <li><a href="#" class="main-nav-link">Universitas</a></li>
                 </ul>
                 <div class="search-and-buttons">
                     <div class="search-input-container">
-                        <input type="text" placeholder="Cari event..." class="search-input">
-                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Cari event..." class="search-input" id="search-input">
+                        <i class="fas fa-search search-icon" id="search-icon"></i>
                     </div>
 
                     <div id="user-section" class="user-section">
@@ -89,7 +109,7 @@
             <div class="main-container">
                 <div class="section-header">
                     <div>
-                        <h2 class="section-title">Semua Event</h2>
+                        <h2 class="section-title" id="all-events-title">Semua Event</h2>
                         <p class="section-subtitle">Jelajahi seluruh event yang tersedia di Surabaya</p>
                     </div>
                     <div class="filter-buttons">
@@ -107,7 +127,7 @@
         <footer class="main-footer">
              <div class="main-container">
                 <div class="footer-grid">
-                    </div>
+                     </div>
                 <div class="footer-copyright">
                     © 2024 EventsBy. Semua hak cipta dilindungi.
                 </div>
