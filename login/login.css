@@ -367,7 +367,7 @@ body {
   /* --- Bagian Ajaibnya --- */
   
   /* 1. Buat background gradasi */
-  background: linear-gradient(145deg, #FFFFFF, #c0c0c0);
+  background: linear-gradient(145deg, #FFFFFF, #f4f0f0);
   
   /* 2. Potong background SEBENTUK teksnya */
   -webkit-background-clip: text;

@@ -87,9 +87,11 @@ function populateEventData(event) {
 
     if (eventImage) {
         if (event.image_url) {
-            eventImage.innerHTML = `<img src="${event.image_url}" alt="${event.title}" class="event-image-large">`;
+            // Hapus class 'event-image-large', biarkan CSS .event-image img yang mengatur ukurannya
+            eventImage.innerHTML = `<img src="${event.image_url}" alt="${event.title}">`;
         } else {
-            eventImage.innerHTML = `<i class="fas fa-image"></i>`;
+            // Placeholder ikon jika tidak ada gambar
+            eventImage.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; color:#d1d5db"><i class="fas fa-image" style="font-size:4rem; margin-bottom:10px"></i></div>`;
         }
     }
 
@@ -170,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutButton.addEventListener('click', async (e) => {
             e.preventDefault();
             await supabase.auth.signOut();
-            window.location.href = '/main/home.html';
+            window.location.href = 'index.html';
         });
     }
 });

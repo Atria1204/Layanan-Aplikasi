@@ -11,94 +11,74 @@
     <link rel="stylesheet" href="/main/detailstyle.css">
     
     <style>
-        /* CSS Tambahan untuk tombol login dinamis */
-        .login-btn, .partner-button {
-            background-color: #4F46E5; color: white; border: none;
-            border-radius: 8px; padding: 8px 14px; font-weight: 600;
-            cursor: pointer; transition: background-color 0.2s;
-            font-size: 14px; text-decoration: none; white-space: nowrap;
-        }
-        .login-btn:hover { background-color: #4338CA; }
-        .partner-button {
-            background-color: #f9fafb; color: #373737; border: 1px solid #d1d5db;
-        }
-        .partner-button:hover {
-            color: #f9fafb; background-color: #4338CA; border-color: #adb5bd;
-        }
         .user-section { position: relative; display: flex; align-items: center; }
     </style>
 </head>
 <body>
 
     <header class="main-header">
-        <nav class="nav-container">
-            <a href="/main/home.html" class="logo">
-                <span class="logo-blue">Events</span><span class="logo-gray">Sby</span>
-            </a>
-            <ul class="main-nav" style="display: flex;">
-                <li><a href="/main/home.html" class="main-nav-link">Beranda</a></li>
-                <li><a href="#" class="main-nav-link">Kategori</a></li>
-                <li><a href="#" class="main-nav-link">Universitas</a></li>
-            </ul>
-            <div class="search-and-user" style="display: flex;">
-                <div class="search-input-container">
-                    <input type="text" placeholder="Cari event..." class="search-input">
-                    <i class="fas fa-search search-icon"></i>
+         <div class="main-container">
+            <nav class="header-content">
+                <div class="logo">
+                    <span class="logo-blue">Events</span><span class="logo-gray">Sby</span>
                 </div>
-                
-                <div id="user-section" class="user-section">
-                    <div id="logged-out-buttons" class="flex items-center space-x-2">
-                         <a href="/login/login.html" class="login-btn">Login</a>
-                         <a href="/login/login.html" class="partner-button">Masuk Partner</a>
-                    </div>
-                    <a href="/login/lengkapi-profil.html" id="complete-profile-button" class="login-btn" style="display: none;">Lengkapi Profil</a>
-                    <div class="dropdown" id="user-profile-dropdown" style="display: none;">
-                        <img src="https://placehold.co/40x40/6366f1/ffffff?text=U" alt="User Profile" class="user-profile-icon" id="user-profile-icon">
-                        <div class="dropdown-content">
-                            <a href="/user/dashboard.html">Dashboard</a>
-                            <a href="#" id="logout-button">Logout</a>
+
+                    <div id="user-section" class="user-section">
+                        <div class="dropdown" id="user-profile-dropdown" style="display: none;">
+                            <img src="https://placehold.co/40x40/6366f1/ffffff?text=U" alt="User Profile" class="user-profile-icon" id="user-profile-icon"> <!-- TERGANTUNG ID NYA DIA ADMIN ATO BUKAN -->
+                            <div class="dropdown-content">
+                                <a href="/user/dashboard.html">Dashboard</a>
+                                <a href="#" id="logout-button">Logout</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
     </header>
 
     <main class="container">
         <a href="/main/home.html" class="back-link">
-            <i class="fas fa-arrow-left"></i> Kembali
+            <i class="fas fa-arrow-left"></i> Kembali ke Beranda
         </a>
         
         <div id="event-detail-content" class="event-detail-container">
+
             <div class="event-main-content">
+                
                 <div id="event-image" class="event-image">
                     <i class="fas fa-image"></i>
                 </div>
+                
                 <div id="event-tags" class="tag-container detail-tags"></div>
                 <h1 id="event-title" class="event-detail-title">Memuat judul event...</h1>
+
                 <div class="info-grid">
                     <div class="info-item">
-                        <i class="fas fa-calendar-alt info-icon"></i>
+                        <div class="info-icon"><i class="far fa-calendar-alt"></i></div>
+            
                         <div>
                             <p class="info-label">Tanggal & Waktu</p>
                             <p id="event-date" class="info-data">Memuat...</p>
                         </div>
                     </div>
                     <div class="info-item">
-                        <i class="fas fa-map-marker-alt info-icon"></i>
+                        <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                      
                         <div>
                             <p class="info-label">Lokasi</p>
                             <p id="event-location" class="info-data">Memuat...</p>
                         </div>
                     </div>
                     <div class="info-item full-width">
-                        <i class="fas fa-university info-icon"></i>
+                        <div class="info-icon"><i class="fas fa-university"></i></div>
+                    
                         <div>
                             <p class="info-label">Penyelenggara</p>
                             <p id="event-organizer" class="info-data">Memuat...</p>
                         </div>
                     </div>
                 </div>
+
                 <div class="content-section">
                     <h2 class="section-heading">Deskripsi Event</h2>
                     <p id="event-description">Memuat deskripsi...</p>
@@ -108,10 +88,12 @@
             <aside class="event-sidebar">
                 <div class="action-card">
                     <h3>Pendaftaran & Kontak</h3>
-                    <button id="register-button" class="action-btn primary">Tampilkan Kontak Pendaftaran</button>
-                    <div id="contact-info" style="display: none; margin-top: 1rem;">
+                    <button id="register-button" class="action-btn primary">Kontak & Pendaftaran</button>
+
+                    <div id="contact-info" style="display: none; margin-top: 1.5rem;">
                         <div class="info-item" style="margin-bottom: 1rem;">
-                            <i class="fas fa-user info-icon"></i>
+                            <div class="info-icon" style="width: 32px; height: 32px; font-size: 0.9rem;"><i class="fas fa-user"></i></div>
+                            
                             <div>
                                 <p class="info-label">Penyelenggara</p>
                                 <p id="sidebar-organizer-name" class="info-data">Memuat...</p>
@@ -136,9 +118,19 @@
     </main>
 
     <footer class="main-footer">
-        </footer>
+            <div class="footer-grid">
+                <div class="logo">
+                    <span class="logo-blue" style="font-size: 45px;">Events</span><span style="color: #fff; font-size: 45px;">Sby</span>
+                </div>
+                
+                <div class="footer-copyright">
+                    © 2024 EventsBy. Semua hak cipta dilindungi.
+                </div>
+            </div>
+    </footer>
 
     <script type="module" src="/supabaseClient.js"></script>
     <script type="module" src="/src/event-detail.js"></script>
+    <script type="module" src="/src/home.js"></script>
 </body>
 </html>

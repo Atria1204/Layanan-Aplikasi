@@ -10,7 +10,7 @@ const logoutButton = document.getElementById('logout-button');
 const userProfileIcon = document.getElementById('user-profile-icon');
 const kategoriLink = document.getElementById('kategori-link');
 const kategoriDropdown = document.getElementById('kategori-dropdown');
-const allEventsTitle = document.getElementById('all-events-title'); // <-- BARU
+const allEventsTitle = document.getElementById('all-events-title');
 
 // --- FUNGSI HELPER ---
 function getInitials(fullName) {
@@ -29,7 +29,6 @@ async function checkUserStatus() {
 }
 
 async function updateHeaderUI(user) {
-    // ... (Fungsi ini tetap sama, tidak perlu diubah) ...
     if (loggedOutButtons) loggedOutButtons.style.display = 'none';
     if (completeProfileButton) completeProfileButton.style.display = 'none';
     if (userProfileDropdown) userProfileDropdown.style.display = 'none';
@@ -51,12 +50,10 @@ async function updateHeaderUI(user) {
     }
 }
 
-/**
- * DIPERBARUI: Fungsi ini sekarang menerima filter kategori
- */
 async function fetchAndDisplayEvents(categoryFilter = 'all') {
     if (allEventsContainer) allEventsContainer.innerHTML = "<p>Memuat event...</p>";
-    if (featuredEventsContainer) featuredEventsContainer.innerHTML = "<p>Memuat event...</p>";
+    // Jangan reset featured container jika hanya filter bawah yang berubah, tapi untuk simplisitas kita reset dulu gapapa
+    if (featuredEventsContainer && categoryFilter === 'all') featuredEventsContainer.innerHTML = "<p>Memuat event...</p>";
 
     // 1. Buat query dasar
     let query = supabase
@@ -81,62 +78,78 @@ async function fetchAndDisplayEvents(categoryFilter = 'all') {
 
     if (!events || events.length === 0) {
         if (allEventsContainer) allEventsContainer.innerHTML = `<p>Belum ada event untuk kategori "${categoryFilter}".</p>`;
-        if (featuredEventsContainer) featuredEventsContainer.innerHTML = "";
+        if (featuredEventsContainer && categoryFilter === 'all') featuredEventsContainer.innerHTML = "";
         return;
     }
 
     if (allEventsContainer) allEventsContainer.innerHTML = '';
     if (featuredEventsContainer) featuredEventsContainer.innerHTML = '';
 
-    // Hanya tampilkan event di "Featured" jika filternya 'all' (atau sesuaikan logikanya)
+    // Logika Render Featured Events (Hanya tampil di 'all')
     if (categoryFilter === 'all') {
+        if (featuredEventsContainer) featuredEventsContainer.style.display = 'grid'; // Pastikan display grid/block
+        
+        // Ambil 3 event teratas untuk featured
         const featuredEvents = events.slice(0, 3);
         featuredEvents.forEach(event => {
             if (featuredEventsContainer) featuredEventsContainer.innerHTML += createEventCard(event);
         });
     } else {
-        // Jika sedang memfilter, kita bisa sembunyikan "Featured" atau tampilkan hasil filter juga
-         if (featuredEventsContainer) featuredEventsContainer.style.display = 'none';
+        // Sembunyikan featured container kalau lagi filter kategori
+        if (featuredEventsContainer) featuredEventsContainer.style.display = 'none';
     }
 
-
+    // Render Semua Event (atau hasil filter)
     events.forEach(event => {
         if (allEventsContainer) allEventsContainer.innerHTML += createEventCard(event);
     });
 }
 
+/**
+ * FUNGSI INI YANG DIUBAH TOTAL
+ * Menyesuaikan dengan CSS Modern Card yang baru dibuat
+ */
 function createEventCard(event) {
-    // ... (Fungsi ini tetap sama, tidak perlu diubah) ...
+    // Format Tanggal
     const eventDate = new Date(event.event_date).toLocaleDateString('id-ID', {
         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
     });
+    
+    // Handle data null/undefined
     const university = event.profiles ? event.profiles.university : 'Universitas';
+    const category = event.category || 'Umum';
+    
+    // Handle Gambar: Jika kosong, pakai placeholder gambar agar layout tetap rapi
+    const imageSrc = (event.image_url && event.image_url.trim() !== '')
+        ? event.image_url
+        : 'https://placehold.co/600x400/e0e7ff/4f46e5?text=No+Image'; 
 
-    const imageHtml = (event.image_url && event.image_url.trim() !== '')
-        ? `<div class="event-image-container"><img src="${event.image_url}" alt="${event.title}" class="event-image"></div>`
-        : `<div class="event-image-placeholder"><i class="fas fa-image"></i></div>`;
-
+    // Return HTML sesuai struktur CSS Modern Card
     return `
         <div class="event-card">
-            <div class="event-card-content">
-                 <div class="card-body">
-                    ${imageHtml}
-                    <div class="tag-container">
-                        <span class="tag tag-technology">${event.category || 'Umum'}</span>
-                    </div>
-                    <h3 class="event-title">${event.title}</h3>
-                    <p class="event-description">${event.description || ''}</p>
-                    <div class="event-details">
-                        <div class="detail-item"><i class="far fa-calendar-alt detail-icon"></i><span>${eventDate}</span></div>
-                        <div class="detail-item"><i class="fas fa-map-marker-alt detail-icon"></i><span>${event.location}</span></div>
-                        <div class="detail-item"><i class="fas fa-university detail-icon"></i><span>${university}</span></div>
-                    </div>
-                 </div>
-                <div class="rating-and-button">
-                    <div class="rating-info">
-                        <i class="fas fa-star rating-star-icon"></i>
-                        <span class="rating-text">New</span>
-                    </div>
+            <div class="event-image-container">
+                <span class="category-tag">${category}</span>
+                <img src="${imageSrc}" alt="${event.title}">
+            </div>
+            
+            <div class="event-content">
+                <h3 class="event-title">${event.title}</h3>
+                <p class="event-description">${event.description || 'Tidak ada deskripsi event.'}</p>
+                
+                <div class="event-info-row">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>${eventDate}</span>
+                </div>
+                <div class="event-info-row">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>${event.location}</span>
+                </div>
+                 <div class="event-info-row">
+                    <i class="fas fa-university"></i>
+                    <span>${university}</span>
+                </div>
+
+                <div class="card-footer">
                     <a href="event-detail.html?id=${event.id}" class="detail-button">Lihat Detail</a>
                 </div>
             </div>
@@ -151,11 +164,9 @@ async function handleLogout() {
 
 // --- INISIALISASI & EVENT LISTENERS ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Panggil fungsi utama saat halaman dimuat
     checkUserStatus();
-    fetchAndDisplayEvents('all'); // Memuat semua event saat pertama kali
+    fetchAndDisplayEvents('all');
 
-    // Listener untuk Kategori
     if (kategoriLink) {
         kategoriLink.addEventListener('click', function(event) {
             event.preventDefault();
@@ -164,34 +175,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // BARU: Listener untuk filter kategori
     if (kategoriDropdown) {
         kategoriDropdown.addEventListener('click', (event) => {
-            // Cek apakah yang diklik adalah link filter
             const filterLink = event.target.closest('.category-filter');
             if (filterLink) {
                 event.preventDefault();
-                
                 const category = filterLink.dataset.category;
                 
-                // Tutup dropdown
                 kategoriDropdown.classList.remove('show');
                 
-                // Ubah judul & tampilkan/sembunyikan "Featured"
                 if (allEventsTitle) {
                     allEventsTitle.textContent = category === 'all' ? 'Semua Event' : `Event Kategori: ${category}`;
                 }
-                if (featuredEventsContainer) {
-                    featuredEventsContainer.style.display = category === 'all' ? 'grid' : 'none';
-                }
-
-                // Panggil ulang fungsi fetch dengan filter baru
+                
+                // Panggil fungsi fetch
                 fetchAndDisplayEvents(category);
             }
         });
     }
 
-    // Listener untuk Profil
     if (userProfileIcon) {
         userProfileIcon.addEventListener('click', function(event) {
             event.preventDefault();
@@ -200,12 +202,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Listener untuk Logout
     if (logoutButton) {
         logoutButton.addEventListener('click', (e) => { e.preventDefault(); handleLogout(); });
     }
 
-    // Listener untuk klik di luar dropdown
     window.addEventListener('click', function(event) {
         if (kategoriDropdown && !event.target.closest('#kategori-dropdown')) {
             kategoriDropdown.classList.remove('show');
@@ -216,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Listener untuk cache (saat tombol 'back' browser)
 window.addEventListener('pageshow', (event) => {
     if (event.persisted) {
         checkUserStatus();

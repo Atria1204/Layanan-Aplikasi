@@ -9,18 +9,36 @@
     <link rel="stylesheet" href="/main/homestyle.css">
     <style>
         .login-btn, .partner-button {
+            display: inline-flex;
+            align-items: center;      /* Ini kuncinya: Memaksa teks ke tengah secara Vertikal */
+            
             background-color: #4F46E5; color: white; border: none;
             border-radius: 8px; padding: 8px 14px; font-weight: 600;
             cursor: pointer; transition: background-color 0.2s;
             font-size: 14px; text-decoration: none; white-space: nowrap;
         }
-        .login-btn:hover { background-color: #4338CA; }
+        .login-btn:hover { 
+            background-color: #4338CA;
+         }
         .partner-button {
-            background-color: #f9fafb; color: #373737; border: 1px solid #d1d5db;
+            background-color: transparent;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-left: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
         }
+
         .partner-button:hover {
-            color: #f9fafb; background-color: #4338CA; border-color: #adb5bd;
+            border-color: #6366F1;
+            color: #6366F1;
+            background-color: #fff;
         }
+        
         .user-section { position: relative; display: flex; align-items: center; }
         #search-icon { cursor: pointer; } 
     </style>
@@ -47,7 +65,6 @@
                             <a href="#" class="category-filter" data-category="seminar">Seminar</a>
                         </div>
                     </li>
-                    <li><a href="#" class="main-nav-link">Universitas</a></li>
                 </ul>
                 <div class="search-and-buttons">
                     <div class="search-input-container">
@@ -60,14 +77,6 @@
                              <a href="/login/login.html" class="login-btn">Login</a>
                              <a href="/login/login.html" class="partner-button">Masuk Partner</a>
                         </div>
-                        <a href="/login/lengkapi-profil.html" id="complete-profile-button" class="login-btn" style="display: none;">Lengkapi Profil</a>
-                        <div class="dropdown" id="user-profile-dropdown" style="display: none;">
-                            <img src="https://placehold.co/40x40/6366f1/ffffff?text=U" alt="User Profile" class="user-profile-icon" id="user-profile-icon">
-                            <div class="dropdown-content">
-                                <a href="/user/dashboard.html">Dashboard</a>
-                                <a href="#" id="logout-button">Logout</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </nav>
@@ -76,20 +85,39 @@
 
     <main>
         <section class="hero-section">
-            <div class="hero-overlay"></div>
             <div class="hero-content main-container">
-                <div class="hero-tag">Platform Event Kampus #1 di Surabaya</div>
-                <h1 class="hero-title">Temukan Event Kampus Terbaik di Surabaya</h1>
-                <p class="hero-subtitle">Jelajahi berbagai event menarik dari universitas-universitas terbaik di Surabaya. Mulai dari teknologi, seni, olahraga, hingga kompetisi akademik.</p>
-                <div class="hero-buttons">
-                    <button class="primary-button">Jelajahi Event</button>
-                    <button class="secondary-button">Gabung Komunitas</button>
+                <div class="hero-badge">
+                    Platform Event Kampus #1 di Surabaya
                 </div>
+
+                <h1 class="hero-title">
+                    Temukan <span class="gradient-text">Event Kampus</span> <br> Terbaik di Surabaya
+                </h1>
+
+                <p class="hero-subtitle">
+                    Jelajahi berbagai event menarik dari universitas terbaik di Surabaya. 
+                    Mulai dari teknologi, seni, olahraga, hingga kompetisi akademik.
+                </p>
+
+                <div class="hero-buttons">
+                    <button class="cta-button primary">Jelajahi Event</button> <!-- primary-button -->
+                    <button class="cta-button secondary">Gabung Komunitas</button> <!-- secondary-button -->
+                </div>
+                
                 <div class="hero-stats">
-                    <div class="stat-item"><div class="stat-number">50+</div><div class="stat-label">Event Aktif</div></div>
-                    <div class="stat-item"><div class="stat-number">15+</div><div class="stat-label">Universitas</div></div>
-                    <div class="stat-item"><div class="stat-number">1000+</div><div class="stat-label">Peserta</div></div>
-                    <div class="stat-item"><div class="stat-number">4.8</div><div class="stat-label">Rating</div></div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Event Aktif</div>
+                    </div>
+                    <div class="stat-divider"></div> <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Universitas</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">Peserta</div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -112,10 +140,6 @@
                         <h2 class="section-title" id="all-events-title">Semua Event</h2>
                         <p class="section-subtitle">Jelajahi seluruh event yang tersedia di Surabaya</p>
                     </div>
-                    <div class="filter-buttons">
-                        <button class="filter-button">Filter</button>
-                        <button class="filter-button">Urutkan</button>
-                    </div>
                 </div>
                 <div id="all-events-container" class="event-card-container"></div>
                 <div class="load-more-button-container">
@@ -125,9 +149,11 @@
         </section>
 
         <footer class="main-footer">
-             <div class="main-container">
-                <div class="footer-grid">
-                     </div>
+            <div class="footer-grid">
+                <div class="logo">
+                    <span class="logo-blue" style="font-size: 45px;">Events</span><span style="color: #fff; font-size: 45px;">Sby</span>
+                </div>
+                
                 <div class="footer-copyright">
                     © 2024 EventsBy. Semua hak cipta dilindungi.
                 </div>
