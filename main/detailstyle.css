@@ -1,5 +1,4 @@
 
-/* General Layout for Detail Page */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -21,23 +20,23 @@
 
 .event-detail-container {
     display: grid;
-    grid-template-columns: 1fr 350px; /* Kiri bebas, Kanan fix 350px */
+    grid-template-columns: 1fr 350px;
     gap: 40px;
     align-items: start;
 }
 
-/* Main Content (Left Column) */
+/* Main Content */
 .event-main-content {
     width: 100%;
 }
 
 .event-image {
     width: 100%;
-    height: 400px; /* TINGGI PASTI: Ubah angka ini kalau mau lebih tinggi/pendek */
+    height: 400px;
     background-color: #f3f4f6;
-    border-radius: 24px; /* Sudut melengkung modern */
-    overflow: hidden; /* Agar gambar tidak keluar dari sudut */
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); /* Efek bayangan Card */
+    border-radius: 24px;
+    overflow: hidden; 
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); 
     position: relative;
     margin-bottom: 2rem;
     display: flex;
@@ -45,16 +44,14 @@
     justify-content: center;
 }
 
-/* Agar gambar apapun ukurannya tetap pas */
 .event-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* KUNCI UTAMA: Memotong gambar biar pas frame tanpa gepeng */
+    object-fit: cover; /* gambar pas frame */
     object-position: center;
     display: block;
 }
 
-/* Placeholder Icon (kalau loading/ga ada gambar) */
 .event-image i {
     font-size: 4rem;
     color: #d1d5db;
@@ -101,8 +98,6 @@
     font-weight: 600;
 }
 
-
-/* --- 3. Info Box (Tanggal, Lokasi) --- */
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -128,7 +123,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #6366F1; /* Warna Ungu */
+    color: #6366F1; 
     font-size: 1.1rem;
     flex-shrink: 0;
 }
@@ -163,12 +158,11 @@
     font-size: 1rem;
     line-height: 1.8;
     color: #4b5563;
-    white-space: pre-line; /* Agar enter/paragraf terbaca */
+    white-space: pre-line; 
 }
 
 
 /* Sidebar (Right Column) */
-/* --- 5. Sidebar (Kanan) --- */
 .event-sidebar {
     position: sticky;
     top: 100px; /* Nempel pas discroll */

@@ -1,5 +1,4 @@
-/* --- ADMIN STYLE --- */
-/* Kita pakai Font Inter dari Google Fonts */
+
 body {
     font-family: 'Inter', sans-serif;
     
@@ -17,7 +16,7 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Custom Scrollbar (Biar rapi) */
+/* Scrollbar  */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -32,8 +31,8 @@ body {
     background: #94a3b8;
 }
 
-/* Style Tambahan untuk Tab Aktif (Digunakan bersama Tailwind) */
+/* Style untuk Tab Aktif */
 .tab-link.active-tab {
-    color: #4f46e5; /* Brand Purple */
+    color: #4f46e5;
     border-bottom-color: #4f46e5;
 }

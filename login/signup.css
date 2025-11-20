@@ -4,17 +4,14 @@
   box-sizing: border-box;
 }
 
-/* General Styling - SAMA PERSIS DENGAN LOGIN.CSS */
 body {
     font-family: 'Inter', sans-serif;
     color: #1f2937;
     margin: 0;
-    
-    /* Animasi Background Pastel */
+    /* Animasi  */
     background: linear-gradient(-45deg, #e8e6f8, #f0e9f8, #f3f0ff, #e6f0fa);
     background-size: 400% 400%;
     animation: gradient-flow 15s ease-in-out infinite;
-    
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -63,7 +60,7 @@ body {
 }
 
 .logo-blue {
-    color: #6366F1; /* Warna ungu dari screenshot */
+    color: #6366F1; 
     font-weight: 700;
     font-size: 1.25rem;
 }
@@ -108,36 +105,33 @@ body {
     margin-bottom: 6px;
 }
 
-/* --- INPUT FIELD: COPY DARI LOGIN.CSS --- */
+
 .input-field {
     margin-top: 0.25rem;
     display: block;
     width: 100%;
-    
-    /* Style dasar sama persis login */
     border: 1px solid #e0e0e0;
     background-color: #fafafa;
     border-radius: 8px;
     padding: 14px 16px;
     font-size: 16px;
     font-family: inherit;
-    
     outline: none;
     transition: all 0.3s ease-in-out;
 }
 
 .input-field:focus {
-    border-color: #8b5cf6; /* Ungu */
+    border-color: #8b5cf6; 
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
     background-color: #ffffff;
 }
 
-/* --- TOMBOL: COPY DARI LOGIN.CSS --- */
+
 .submit-button {
     border: none;
     width: 100%;
     padding: 14px 16px;
-    border-radius: 10px; /* Radius sama dengan input */
+    border-radius: 10px;
     
     font-family: 'Inter', sans-serif;
     font-size: 16px;
@@ -187,11 +181,8 @@ body {
 /* --- VISUAL KANAN --- */
 .visual-container {
     flex: 1;
-    display: none; /* Hidden di Mobile */
-    
-    /* Gradasi Ungu Polos (Sesuai screenshot Sign Up kamu) */
+    display: none;
     background-image: url("../bg_home.jpg");
-    
     object-fit: cover;
     align-items: center;
     justify-content: center;

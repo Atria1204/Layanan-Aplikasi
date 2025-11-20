@@ -1,10 +1,8 @@
-/* --- 1. GLOBAL STYLES (Tema Pastel) --- */
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     color: #1f2937;
     
-    /* Animasi Background (Sama dengan Login/Signup) */
     background: linear-gradient(-45deg, #e8e6f8, #f0e9f8, #f3f0ff, #e6f0fa);
     background-size: 400% 400%;
     animation: gradient-flow 15s ease-in-out infinite;
@@ -12,7 +10,7 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Mulai dari atas, bukan tengah vertical */
+    align-items: flex-start;
     padding: 3rem 1rem;
 }
 
@@ -22,10 +20,10 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* --- 2. FORM CONTAINER (Card) --- */
+/* --- FORM CONTAINER (Card) --- */
 .form-container {
     background-color: #ffffff;
-    border-radius: 24px; /* Sudut membulat modern */
+    border-radius: 24px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     width: 100%;
     max-width: 800px;
@@ -35,7 +33,9 @@ body {
 }
 
 /* Tombol Kembali */
-.nav-top { margin-bottom: 2rem; }
+.nav-top { 
+    margin-bottom: 2rem;
+}
 
 .back-link {
     text-decoration: none;
@@ -48,7 +48,9 @@ body {
     transition: color 0.2s;
 }
 
-.back-link:hover { color: #6366F1; }
+.back-link:hover { 
+    color: #6366F1;
+}
 
 /* Header */
 .form-header {
@@ -72,16 +74,17 @@ body {
     margin: 0;
 }
 
-/* --- 3. FORM SECTIONS --- */
+/* --- FORM SECTIONS --- */
 .form-section {
     margin-bottom: 2.5rem;
     padding-bottom: 2rem;
     border-bottom: 1px solid #f3f4f6;
 }
 
-.form-section:last-of-type { border-bottom: none; }
+.form-section:last-of-type { 
+    border-bottom: none; 
+}
 
-/* Judul Section dengan Nomor */
 .section-title-wrapper {
     display: flex;
     align-items: center;
@@ -108,8 +111,9 @@ body {
     margin: 0;
 }
 
-/* --- 4. INPUT FIELDS (Modern Style) --- */
-.form-group { margin-bottom: 1.5rem; }
+.form-group {
+    margin-bottom: 1.5rem; 
+    }
 
 .form-group label {
     display: block;
@@ -136,22 +140,25 @@ body {
 
 .input-field:focus {
     background-color: #fff;
-    border-color: #8b5cf6; /* Ungu */
-    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1); /* Glow */
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1); 
 }
 
-/* Textarea */
-textarea.input-field { resize: vertical; line-height: 1.5; }
+textarea.input-field { 
+    resize: vertical; 
+    line-height: 1.5; 
+}
 
-/* Grid 2 Kolom */
 .form-group-inline {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
 }
 
-/* Custom Select Arrow (Opsional biar cantik) */
-.select-wrapper { position: relative; }
+.select-wrapper {
+    position: relative; 
+    }
+
 .select-icon {
     position: absolute;
     right: 16px;
@@ -163,7 +170,7 @@ textarea.input-field { resize: vertical; line-height: 1.5; }
 }
 select.input-field { appearance: none; cursor: pointer; }
 
-/* --- 5. FILE INPUT STYLING --- */
+/* --- INPUT STYLING --- */
 .file-input {
     padding: 10px;
     background: white;
@@ -190,8 +197,9 @@ select.input-field { appearance: none; cursor: pointer; }
     margin-top: 6px;
 }
 
-/* --- 6. SUBMIT BUTTON --- */
-.form-footer { margin-top: 1rem; }
+.form-footer { 
+    margin-top: 1rem; 
+}
 
 .submit-btn {
     width: 100%;
@@ -199,7 +207,6 @@ select.input-field { appearance: none; cursor: pointer; }
     border-radius: 12px;
     border: none;
     
-    /* Gradient Ungu */
     background: linear-gradient(90deg, #8b5cf6, #7c3aed);
     color: white;
     font-size: 1rem;
