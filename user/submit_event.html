@@ -3,73 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Event - Surabaya Event Hub</title>
+    <title>Submit Event - EventsSby</title>
     <link rel="stylesheet" href="submit_event.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
     <div class="form-container">
+        <div class="nav-top">
+            <a href="/user/dashboard.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+            </a>
+        </div>
+
         <header class="form-header">
-            <h1>Submit Your Event</h1>
-            <p>Isi formulir di bawah untuk mendaftarkan event Anda di Surabaya Event Hub.</p>
+            <h1>Submit Your Event 🚀</h1>
+            <p>Isi formulir di bawah untuk mendaftarkan event kampus Anda.</p>
         </header>
 
-        <form id="submit-event-form"action="#" method="POST">
+        <form id="submit-event-form" action="#" method="POST">
             <div class="form-section">
-                <h2>Detail Event</h2>
+                <div class="section-title-wrapper">
+                    <span class="section-number">1</span>
+                    <h2>Detail Event</h2>
+                </div>
+                
                 <div class="form-group">
                     <label for="event-name">Nama Event</label>
-                    <input type="text" id="event-name" name="event-name" placeholder="Contoh: Surabaya Tech Conference 2025" required>
+                    <input type="text" id="event-name" name="event-name" placeholder="Contoh: Surabaya Tech Conference 2025" required class="input-field">
                 </div>
+                
                 <div class="form-group">
                     <label for="event-description">Deskripsi Event</label>
-                    <textarea id="event-description" name="event-description" rows="4" placeholder="Jelaskan tentang event Anda..." required></textarea>
+                    <textarea id="event-description" name="event-description" rows="5" placeholder="Jelaskan detail acara, rundown singkat, atau benefit peserta..." required class="input-field"></textarea>
                 </div>
-                 <div class="form-group-inline">
+                
+                <div class="form-group-inline">
                     <div class="form-group">
                         <label for="event-date">Tanggal & Waktu</label>
-                        <input type="datetime-local" id="event-date" name="event-date" required>
+                        <input type="datetime-local" id="event-date" name="event-date" required class="input-field">
                     </div>
                     <div class="form-group">
                         <label for="event-category">Kategori</label>
-                        <select id="event-category" name="event-category" required>
-                            <option value="" disabled selected>Pilih Kategori</option>
-                            <option value="teknologi">Teknologi</option>
-                            <option value="musik">Musik</option>
-                            <option value="seni">Seni & Budaya</option>
-                            <option value="olahraga">Olahraga</option>
-                            <option value="kuliner">Kuliner</option>
-                            <option value="seminar">Seminar</option>
-                        </select>
+                        <div class="select-wrapper">
+                            <select id="event-category" name="event-category" required class="input-field">
+                                <option value="" disabled selected>Pilih Kategori</option>
+                                <option value="teknologi">Teknologi</option>
+                                <option value="musik">Musik</option>
+                                <option value="seni">Seni & Budaya</option>
+                                <option value="olahraga">Olahraga</option>
+                                <option value="kuliner">Kuliner</option>
+                                <option value="akademik">Akademik</option>
+                                <option value="seminar">Seminar</option>
+                            </select>
+                            <i class="fas fa-chevron-down select-icon"></i>
+                        </div>
                     </div>
                 </div>
+
                  <div class="form-group">
                     <label for="event-image">Poster Event</label>
-                    <input type="file" id="event-image" name="event-image" accept="image/*" required>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="event-image" name="event-image" accept="image/*" required class="input-field file-input">
+                        <p class="file-help-text">Format: JPG, PNG (Max. 2MB). Disarankan rasio landscape.</p>
+                    </div>
                 </div>
             </div>
 
             <div class="form-section">
-                <h2>Detail Venue & Penyelenggara</h2>
+                <div class="section-title-wrapper">
+                    <span class="section-number">2</span>
+                    <h2>Lokasi & Penyelenggara</h2>
+                </div>
+
                 <div class="form-group">
                     <label for="venue-name">Nama Venue / Lokasi</label>
-                    <input type="text" id="venue-name" name="venue-name" placeholder="Contoh: Grand City Convex" required>
+                    <input type="text" id="venue-name" name="venue-name" placeholder="Contoh: Grand City Convex / Gedung Robotika ITS" required class="input-field">
                 </div>
+                
                 <div class="form-group">
                     <label for="venue-address">Alamat Lengkap</label>
-                    <textarea id="venue-address" name="venue-address" rows="3" placeholder="Masukkan alamat lengkap lokasi event" required></textarea>
+                    <textarea id="venue-address" name="venue-address" rows="2" placeholder="Masukkan alamat lengkap lokasi event" required class="input-field"></textarea>
                 </div>
+                
                 <div class="form-group-inline">
                     <div class="form-group">
-                        <label for="organizer-name">Nama Penyelenggara</label>
-                        <input type="text" id="organizer-name" name="organizer-name" placeholder="Nama Anda atau organisasi Anda" required>
+                        <label for="organizer-name">Nama Penyelenggara (CP)</label>
+                        <input type="text" id="organizer-name" name="organizer-name" placeholder="Nama Narahubung" required class="input-field">
                     </div>
                     <div class="form-group">
-                        <label for="organizer-contact">Kontak (Email / No. HP)</label>
-                        <input type="text" id="organizer-contact" name="organizer-contact" placeholder="Email atau nomor yang bisa dihubungi" required>
+                        <label for="organizer-contact">Kontak (WhatsApp)</label>
+                        <input type="text" id="organizer-contact" name="organizer-contact" placeholder="0812xxxx (WhatsApp)" required class="input-field">
                     </div>
                 </div>
             </div>
@@ -80,8 +105,8 @@
         </form>
     </div>
 
-<script type="module" src="../supabaseClient.js"></script>
-<script type="module" src="../src/submit_event.js"></script>
+    <script type="module" src="../supabaseClient.js"></script>
+    <script type="module" src="../src/submit_event.js"></script>
 
 </body>
 </html>

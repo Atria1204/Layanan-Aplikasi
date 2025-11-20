@@ -1,349 +1,259 @@
-// admin/admin.js
-
 import { supabase } from '../supabaseClient.js';
-
-console.log('✅ Admin script loaded successfully!');
 
 // --- DOM ELEMENTS ---
 const eventListContainer = document.getElementById('event-list-container');
+const tabsNav = document.getElementById('tabs-nav');
+const tabLinks = document.querySelectorAll('.tab-link');
+
+// Stats Elements
 const pendingCountEl = document.getElementById('pending-count');
 const approvedCountEl = document.getElementById('approved-count');
 const rejectedCountEl = document.getElementById('rejected-count');
+
 const tabPendingCountEl = document.getElementById('tab-pending-count');
 const tabApprovedCountEl = document.getElementById('tab-approved-count');
 const tabRejectedCountEl = document.getElementById('tab-rejected-count');
 const tabAllCountEl = document.getElementById('tab-all-count');
-const tabsNav = document.getElementById('tabs-nav');
 
+let currentFilter = 'pending'; // Default tab yang aktif saat pertama buka
 
-// --- SECURITY CHECK ---
-// Fungsi untuk memeriksa apakah user adalah admin
+// --- 1. SECURITY CHECK (Cek apakah user adalah Admin) ---
 async function checkAdminStatus() {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { session } } = await supabase.auth.getSession();
     
-    // Jika tidak ada user, lempar ke halaman login
-    if (!user) {
-        window.location.href = '../login.html';
+    if (!session || !session.user) {
+        window.location.href = '/login/login.html';
         return;
     }
 
-    // Ambil profil user untuk memeriksa role
+    // Cek role di tabel profiles
     const { data: profile, error } = await supabase
         .from('profiles')
         .select('role')
-        .eq('id', user.id)
+        .eq('id', session.user.id)
         .single();
 
     if (error || !profile || profile.role !== 'admin') {
-        // Jika bukan admin, lempar ke halaman dashboard pengguna biasa
-        alert('Akses ditolak. Anda bukan admin.');
-        window.location.href = '../user/dashboard.html';
+        alert('Akses ditolak. Halaman ini khusus Admin.');
+        window.location.href = '/user/dashboard.html';
     }
 }
 
-// --- DATA FETCHING AND RENDERING ---
+// --- 2. FETCH DATA EVENT ---
+async function fetchEvents() {
+    // Tampilkan loading state
+    eventListContainer.innerHTML = `
+        <div class="text-center py-12">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-200 border-t-indigo-600"></div>
+            <p class="mt-2 text-gray-400">Memuat data...</p>
+        </div>`;
 
-// Fungsi untuk mengambil dan menampilkan jumlah event berdasarkan status
-async function fetchEventCounts() {
-    const { data, error } = await supabase.from('events').select('status');
-    if (error) {
-        console.error('Error fetching event counts:', error);
-        return;
-    }
-
-    const counts = { pending: 0, approved: 0, rejected: 0 };
-    data.forEach(event => {
-        counts[event.status]++;
-    });
-
-    // Update UI
-    pendingCountEl.textContent = counts.pending;
-    approvedCountEl.textContent = counts.approved;
-    rejectedCountEl.textContent = counts.rejected;
-    
-    tabPendingCountEl.textContent = counts.pending;
-    tabApprovedCountEl.textContent = counts.approved;
-    tabRejectedCountEl.textContent = counts.rejected;
-    tabAllCountEl.textContent = data.length;
-}
-
-// Fungsi utama untuk mengambil dan menampilkan daftar event
-async function fetchAndDisplayEvents(statusFilter = 'all') {
-    eventListContainer.innerHTML = '<p>Loading events...</p>';
-
+    // Query Dasar
     let query = supabase
         .from('events')
-        .select(`
-            *,
-            profiles ( full_name, phone_number )
-        `)
+        .select('*, profiles(full_name, phone_number)')
         .order('created_at', { ascending: false });
 
-    // Terapkan filter jika bukan 'all'
-    if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter);
+    // Terapkan Filter Tab (Kecuali 'all')
+    if (currentFilter !== 'all') {
+        query = query.eq('status', currentFilter);
     }
-    
+
     const { data: events, error } = await query;
 
     if (error) {
         console.error('Error fetching events:', error);
-        eventListContainer.innerHTML = '<p class="text-red-500">Gagal memuat event.</p>';
+        eventListContainer.innerHTML = '<div class="text-center text-red-500 py-10">Gagal memuat data. Silakan refresh.</div>';
         return;
     }
 
-    if (events.length === 0) {
-        eventListContainer.innerHTML = '<p>Tidak ada event untuk ditampilkan.</p>';
-        return;
-    }
-
-    // Kosongkan container dan render setiap event
-    eventListContainer.innerHTML = '';
-    events.forEach(event => {
-        const eventCard = createEventCard(event);
-        eventListContainer.appendChild(eventCard);
-    });
-    lucide.createIcons(); // Re-initialize icons
+    // Update Angka Statistik
+    await updateStats();
+    
+    // Render Kartu
+    renderEvents(events);
 }
 
-// Fungsi untuk membuat HTML satu kartu event
-function createEventCard(event) {
-    const card = document.createElement('div');
-    card.className = 'bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row relative';
-
-    // Logika untuk status badge
-    const statusInfo = {
-        pending: { text: 'Pending', bg: 'bg-yellow-100', text_color: 'text-yellow-700' },
-        approved: { text: 'Disetujui', bg: 'bg-green-100', text_color: 'text-green-700' },
-        rejected: { text: 'Ditolak', bg: 'bg-red-100', text_color: 'text-red-700' },
-    };
-    const currentStatus = statusInfo[event.status] || statusInfo.pending;
-    
-    // Logika untuk menampilkan tombol aksi
-    const actionButtons = event.status === 'pending' ? `
-        <a href="/main/event-detail.html?id=${event.id}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-           <i data-lucide="eye" class="w-4 h-4 mr-2"></i>Detail
-        </a>
-        <button data-id="${event.id}" data-action="approve" class="action-btn inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
-           <i data-lucide="check" class="w-4 h-4 mr-2"></i>Setujui
-        </button>
-         <button data-id="${event.id}" data-action="reject" class="action-btn inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
-           <i data-lucide="x" class="w-4 h-4 mr-2"></i>Tolak
-        </button>
-        <button data-id="${event.id}" data-action="delete" class="action-btn-delete inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-800 hover:bg-red-900">
-           <i data-lucide="trash-2" class="w-4 h-4 mr-2"></i>Hapus
-        </button>
-    ` : `
-        <a href="/main/event-detail.html?id=${event.id}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-           <i data-lucide="eye" class="w-4 h-4 mr-2"></i>Detail
-        </a>
-        <button data-id="${event.id}" data-action="delete" class="action-btn-delete inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-800 hover:bg-red-900">
-           <i data-lucide="trash-2" class="w-4 h-4 mr-2"></i>Hapus
-        </button>
-    `;
-
-    // Format tanggal
-    const eventDate = new Date(event.event_date);
-    const submittedDate = new Date(event.created_at);
-
-    card.innerHTML = `
-        <span class="absolute top-4 right-4 ${currentStatus.bg} ${currentStatus.text_color} text-xs font-semibold px-3 py-1 rounded-full">${currentStatus.text}</span>
-        <img src="${event.image_url || 'https://placehold.co/800x600/e2e8f0/64748b?text=Event'}" 
-             alt="${event.title}" class="w-full md:w-64 h-48 md:h-auto object-cover">
-        <div class="p-6 flex-1 flex flex-col">
-            <div class="flex-grow">
-                <h2 class="text-xl font-bold mb-1">${event.title}</h2>
-                <p class="text-gray-600 text-sm mb-4">${event.description || 'Tidak ada deskripsi.'}</p>
-                <div class="space-y-3 text-sm text-gray-700">
-                    <div class="flex items-center">
-                        <i data-lucide="calendar" class="w-4 h-4 mr-3 text-gray-400"></i> ${eventDate.toLocaleDateString('id-ID')} • ${eventDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute:'2-digit' })}
-                    </div>
-                    <div class="flex items-start">
-                        <i data-lucide="map-pin" class="w-4 h-4 mr-3 text-gray-400 mt-1"></i> 
-                        <div>${event.location || 'Lokasi tidak tersedia.'}</div>
-                    </div>
-                    <div class="flex items-center">
-    <i data-lucide="user" class="w-4 h-4 mr-3 text-gray-400"></i>
-    ${
-      // Jika profil ada, tampilkan detailnya. Jika tidak, tampilkan pesan.
-      event.profiles
-        ? `${event.profiles.full_name || "Nama Tidak Ada"} • ${event.profiles.phone_number || "Kontak Tidak Ada"}`
-        : "Pengguna Dihapus"
-    }
-</div>
-                </div>
+// --- 3. RENDER EVENTS (Tampilan Kartu) ---
+function renderEvents(events) {
+    if (!events || events.length === 0) {
+        eventListContainer.innerHTML = `
+            <div class="text-center py-16 flex flex-col items-center text-gray-400">
+                <i data-lucide="inbox" class="w-16 h-16 mb-4 text-gray-200"></i>
+                <p class="text-lg">Tidak ada event di kategori ini.</p>
             </div>
-            <div class="border-t mt-4 pt-4 flex items-center justify-between">
-                <div>
-                   <span class="bg-indigo-100 text-indigo-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">${event.category || 'Umum'}</span>
-                   <span class="text-xs text-gray-500">Submitted ${submittedDate.toLocaleString('id-ID')}</span>
+        `;
+        lucide.createIcons();
+        return;
+    }
+
+    eventListContainer.innerHTML = '';
+
+    events.forEach(event => {
+        // 1. Tentukan Badge Status
+        let statusBadge = '';
+        if(event.status === 'pending') statusBadge = '<span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Pending</span>';
+        else if(event.status === 'approved') statusBadge = '<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Approved</span>';
+        else if(event.status === 'rejected') statusBadge = '<span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Rejected</span>';
+
+        // 2. Format Tanggal
+        const eventDate = new Date(event.event_date).toLocaleDateString('id-ID', { 
+            weekday: 'long', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' 
+        });
+
+        // 3. Tentukan Tombol Aksi
+        let actionButtons = '';
+        
+        if (event.status === 'pending') {
+            // Tombol untuk Pending: Tolak & Setujui
+            actionButtons = `
+                <div class="flex gap-3 mt-4 sm:mt-0 w-full sm:w-auto">
+                    <button class="btn-reject flex-1 sm:flex-none px-4 py-2 bg-white border border-red-200 text-red-600 rounded-lg text-sm font-medium hover:bg-red-50 transition-colors" data-id="${event.id}">
+                        Tolak
+                    </button>
+                    <button class="btn-approve flex-1 sm:flex-none px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors shadow-sm" data-id="${event.id}">
+                        Setujui
+                    </button>
                 </div>
-                <div class="flex items-center space-x-2">
+            `;
+        } else {
+            // Tombol untuk Approved/Rejected: HAPUS (Warna Merah Terang bg-red-500)
+            actionButtons = `
+                <div class="flex gap-3 mt-4 sm:mt-0 w-full sm:w-auto justify-end">
+                    <button class="btn-delete px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors shadow-sm flex items-center justify-center gap-2 w-full sm:w-auto" data-id="${event.id}">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i> Hapus
+                    </button>
+                </div>
+            `;
+        }
+
+        // 4. Handle Gambar (Placeholder jika kosong)
+        const imageSrc = event.image_url || 'https://placehold.co/100x100/e2e8f0/64748b?text=No+Img';
+
+        // 5. Susun HTML Kartu
+        const cardHTML = `
+            <div class="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row gap-5">
+                
+                <div class="w-full sm:w-32 h-32 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100">
+                    <img src="${imageSrc}" class="w-full h-full object-cover" alt="${event.title}">
+                </div>
+                
+                <div class="flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            ${statusBadge}
+                            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">${event.category || 'Umum'}</span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold text-gray-900 leading-tight mb-1">
+                            <a href="/main/event-detail.html?id=${event.id}" class="hover:text-indigo-600 transition-colors">${event.title}</a>
+                        </h3>
+                        
+                        <div class="text-sm text-gray-500 flex flex-col gap-1 mt-2">
+                            <span class="flex items-center gap-2"><i data-lucide="calendar" class="w-3 h-3"></i> ${eventDate}</span>
+                            <span class="flex items-center gap-2"><i data-lucide="map-pin" class="w-3 h-3"></i> ${event.location}</span>
+                            <span class="flex items-center gap-2"><i data-lucide="user" class="w-3 h-3"></i> ${event.organizer_name || event.profiles?.full_name || 'User'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-end border-t sm:border-t-0 pt-4 sm:pt-0 border-gray-100">
                     ${actionButtons}
                 </div>
             </div>
-        </div>
-    `;
-    return card;
+        `;
+
+        eventListContainer.innerHTML += cardHTML;
+    });
+
+    // Re-init Icons
+    lucide.createIcons();
 }
 
-// --- EVENT HANDLERS ---
+// --- 4. UPDATE STATISTIK ---
+async function updateStats() {
+    const { count: pending } = await supabase.from('events').select('*', { count: 'exact', head: true }).eq('status', 'pending');
+    const { count: approved } = await supabase.from('events').select('*', { count: 'exact', head: true }).eq('status', 'approved');
+    const { count: rejected } = await supabase.from('events').select('*', { count: 'exact', head: true }).eq('status', 'rejected');
+    const { count: all } = await supabase.from('events').select('*', { count: 'exact', head: true });
 
-// Fungsi untuk meng-handle update status (approve/reject)
-async function handleUpdateStatus(eventId, newStatus) {
-    const confirmed = confirm(`Anda yakin ingin ${newStatus === 'approved' ? 'menyetujui' : 'menolak'} event ini?`);
-    if (!confirmed) return;
+    // Update Cards Atas
+    if(pendingCountEl) pendingCountEl.innerText = pending || 0;
+    if(approvedCountEl) approvedCountEl.innerText = approved || 0;
+    if(rejectedCountEl) rejectedCountEl.innerText = rejected || 0;
 
-    const { error } = await supabase
-        .from('events')
-        .update({ status: newStatus })
-        .eq('id', eventId);
-    
-    if (error) {
-        console.error('Error updating status:', error);
-        alert('Gagal mengupdate status event.');
-    } else {
-        alert('Status event berhasil diupdate!');
-        // Refresh data di halaman
-        fetchEventCounts();
-        // Ambil filter yang sedang aktif dari tab
-        const activeTab = tabsNav.querySelector('.border-indigo-600');
-        const currentFilter = activeTab ? activeTab.dataset.status : 'all';
-        fetchAndDisplayEvents(currentFilter);
-    }
+    // Update Badge di Tabs
+    if(tabPendingCountEl) tabPendingCountEl.innerText = pending || 0;
+    if(tabApprovedCountEl) tabApprovedCountEl.innerText = approved || 0;
+    if(tabRejectedCountEl) tabRejectedCountEl.innerText = rejected || 0;
+    if(tabAllCountEl) tabAllCountEl.innerText = all || 0;
 }
 
-// Fungsi untuk menghapus event (admin only)
-async function handleDeleteEvent(eventId) {
-    const confirmed = confirm('Apakah Anda yakin ingin menghapus event ini secara permanen? Tindakan ini tidak dapat dibatalkan.');
-    if (!confirmed) return;
+// --- 5. EVENT HANDLERS (Update & Delete) ---
 
-    try {
-        console.log('=== ADMIN DELETE EVENT START ===');
-        console.log('Event ID:', eventId);
-        
-        // Hapus event dengan select untuk melihat hasilnya
-        const { data: deletedData, error: deleteError } = await supabase
-            .from('events')
-            .delete()
-            .eq('id', eventId)
-            .select();
-        
-        console.log('Delete operation result:', { deletedData, deleteError });
-        
-        if (deleteError) {
-            console.error('Delete error:', deleteError);
-            alert('Gagal menghapus event: ' + deleteError.message + '\n\nError code: ' + deleteError.code + '\n\nSilakan periksa RLS policy di Supabase.');
-            return;
-        }
+// Handle Click pada Tombol di dalam Event List (Event Delegation)
+eventListContainer.addEventListener('click', async (e) => {
+    const target = e.target.closest('button');
+    if (!target) return;
 
-        // Cek apakah ada data yang dihapus
-        if (!deletedData || deletedData.length === 0) {
-            console.warn('No rows deleted! This usually means RLS policy is blocking the delete.');
-            alert('Gagal menghapus event. Tidak ada baris yang terhapus.\n\nKemungkinan masalah:\n1. RLS Policy di Supabase tidak mengizinkan DELETE untuk admin\n2. Event sudah dihapus sebelumnya\n\nSilakan periksa RLS policy di Supabase Dashboard.');
-            
-            // Refresh untuk memastikan data terbaru
-            await fetchEventCounts();
-            const activeTab = tabsNav.querySelector('.border-indigo-600');
-            const currentFilter = activeTab ? activeTab.dataset.status : 'all';
-            await fetchAndDisplayEvents(currentFilter);
-            return;
-        }
+    const id = target.dataset.id;
+    if (!id) return;
 
-        console.log('Event deleted successfully:', deletedData);
-        
-        // Verifikasi sekali lagi bahwa event benar-benar terhapus
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const { data: checkData, error: checkError } = await supabase
-            .from('events')
-            .select('id')
-            .eq('id', eventId)
-            .maybeSingle();
-        
-        console.log('Verification check:', { checkData, checkError });
-        
-        if (checkData) {
-            console.error('Event masih ada setelah delete! RLS policy mungkin tidak bekerja dengan benar.');
-            alert('Event masih ada setelah penghapusan.\n\nIni menunjukkan masalah dengan RLS policy di Supabase.\n\nSilakan:\n1. Buka Supabase Dashboard\n2. Pergi ke Table Editor > events > Policies\n3. Pastikan ada policy DELETE yang mengizinkan admin menghapus semua event');
-            await fetchEventCounts();
-            const activeTab = tabsNav.querySelector('.border-indigo-600');
-            const currentFilter = activeTab ? activeTab.dataset.status : 'all';
-            await fetchAndDisplayEvents(currentFilter);
-            return;
+    // LOGIKA APPROVE
+    if (target.classList.contains('btn-approve')) {
+        if (confirm('Setujui event ini? Event akan tampil di halaman publik.')) {
+            const { error } = await supabase.from('events').update({ status: 'approved' }).eq('id', id);
+            if (!error) fetchEvents();
+            else alert('Gagal update status');
         }
-        
-        console.log('=== ADMIN DELETE EVENT SUCCESS ===');
-        
-        // Refresh data di halaman
-        await fetchEventCounts();
-        // Ambil filter yang sedang aktif dari tab
-        const activeTab = tabsNav.querySelector('.border-indigo-600');
-        const currentFilter = activeTab ? activeTab.dataset.status : 'all';
-        await fetchAndDisplayEvents(currentFilter);
-        
-        // Tampilkan alert sukses
-        alert('Event berhasil dihapus!');
-        
-    } catch (error) {
-        console.error('=== ADMIN DELETE EVENT ERROR ===', error);
-        alert('Terjadi kesalahan saat menghapus event:\n' + error.message + '\n\nSilakan periksa console untuk detail lebih lanjut.');
     }
-}
-
-// Event listener untuk tombol approve/reject/delete menggunakan event delegation
-eventListContainer.addEventListener('click', (e) => {
-    // Handle approve/reject buttons
-    const button = e.target.closest('.action-btn');
-    if (button) {
-        e.preventDefault();
-        const eventId = button.dataset.id;
-        const action = button.dataset.action;
-        if (action === 'approve') {
-            handleUpdateStatus(eventId, 'approved');
-        } else if (action === 'reject') {
-            handleUpdateStatus(eventId, 'rejected');
+    // LOGIKA REJECT
+    else if (target.classList.contains('btn-reject')) {
+        if (confirm('Tolak event ini?')) {
+            const { error } = await supabase.from('events').update({ status: 'rejected' }).eq('id', id);
+            if (!error) fetchEvents();
+            else alert('Gagal update status');
         }
-        return;
     }
-
-    // Handle delete button
-    const deleteButton = e.target.closest('.action-btn-delete');
-    if (deleteButton) {
-        e.preventDefault();
-        e.stopPropagation();
-        const eventId = deleteButton.dataset.id;
-        if (eventId) {
-            handleDeleteEvent(eventId);
+    // LOGIKA DELETE (HAPUS)
+    else if (target.classList.contains('btn-delete')) {
+        if (confirm('Hapus event ini secara permanen? Tindakan tidak bisa dibatalkan.')) {
+            const { error } = await supabase.from('events').delete().eq('id', id);
+            if (!error) {
+                alert('Event berhasil dihapus');
+                fetchEvents();
+            } else {
+                console.error(error);
+                alert('Gagal menghapus event. Pastikan Anda punya hak akses.');
+            }
         }
-        return;
     }
 });
 
-// Event listener untuk tabs filter
+// Handle Tab Navigation
 tabsNav.addEventListener('click', (e) => {
     e.preventDefault();
-    const link = e.target.closest('.tab-link');
-    if (link) {
-        // Hapus style aktif dari semua tab
-        tabsNav.querySelectorAll('.tab-link').forEach(tab => {
-            tab.classList.remove('text-indigo-600', 'border-b-2', 'border-indigo-600');
+    const clickedTab = e.target.closest('.tab-link');
+    
+    if (clickedTab) {
+        // Reset semua tab
+        document.querySelectorAll('.tab-link').forEach(tab => {
+            tab.classList.remove('active-tab', 'text-indigo-600', 'border-brand-500', 'border-yellow-400', 'border-green-500', 'border-red-500');
+            tab.classList.add('border-transparent', 'text-gray-500');
         });
-        // Tambahkan style aktif ke tab yang diklik
-        link.classList.add('text-indigo-600', 'border-b-2', 'border-indigo-600');
 
-        const statusFilter = link.dataset.status;
-        fetchAndDisplayEvents(statusFilter);
+        // Set tab aktif
+        clickedTab.classList.remove('border-transparent', 'text-gray-500');
+        clickedTab.classList.add('active-tab'); // Class ini ada di CSS admin.css
+
+        // Update filter & fetch
+        currentFilter = clickedTab.dataset.status;
+        fetchEvents();
     }
 });
 
-
 // --- INITIALIZATION ---
-// Fungsi yang berjalan saat halaman pertama kali dimuat
-async function initializePage() {
-    await checkAdminStatus(); // Pertama, cek status admin
-    fetchEventCounts();       // Kedua, hitung statistik
-    fetchAndDisplayEvents('all'); // Ketiga, tampilkan semua event
-}
-
-// Jalankan saat DOM selesai dimuat
-document.addEventListener('DOMContentLoaded', initializePage);
+document.addEventListener('DOMContentLoaded', async () => {
+    await checkAdminStatus();
+    fetchEvents();
+});

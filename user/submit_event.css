@@ -1,170 +1,225 @@
-/* General Styling */
+/* --- 1. GLOBAL STYLES (Tema Pastel) --- */
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8fafc; /* bg-slate-50 */
-    color: #334155; /* text-slate-700 */
     margin: 0;
-    padding: 2rem 1rem;
+    color: #1f2937;
+    
+    /* Animasi Background (Sama dengan Login/Signup) */
+    background: linear-gradient(-45deg, #e8e6f8, #f0e9f8, #f3f0ff, #e6f0fa);
+    background-size: 400% 400%;
+    animation: gradient-flow 15s ease-in-out infinite;
+    
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
+    align-items: flex-start; /* Mulai dari atas, bukan tengah vertical */
+    padding: 3rem 1rem;
 }
 
-/* Form Container */
+@keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- 2. FORM CONTAINER (Card) --- */
 .form-container {
     background-color: #ffffff;
-    border: 1px solid #e2e8f0; /* border-slate-200 */
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border-radius: 24px; /* Sudut membulat modern */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     width: 100%;
     max-width: 800px;
-    padding: 2.5rem;
+    padding: 3rem;
     box-sizing: border-box;
+    position: relative;
 }
 
-/* Form Header */
+/* Tombol Kembali */
+.nav-top { margin-bottom: 2rem; }
+
+.back-link {
+    text-decoration: none;
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+}
+
+.back-link:hover { color: #6366F1; }
+
+/* Header */
 .form-header {
     text-align: center;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 1.5rem;
+    margin-bottom: 3rem;
 }
 
 .form-header h1 {
-    font-size: 1.875rem; /* 30px */
-    font-weight: 700;
-    color: #1e293b; /* text-slate-800 */
+    font-size: 2rem;
+    font-weight: 800;
+    color: #111827;
     margin: 0 0 0.5rem 0;
+    background: linear-gradient(90deg, #1f2937, #4b5563);
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 
 .form-header p {
     font-size: 1rem;
-    color: #64748b; /* text-slate-500 */
+    color: #6b7280;
     margin: 0;
 }
 
-/* Form Sections */
+/* --- 3. FORM SECTIONS --- */
 .form-section {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.form-section:last-of-type { border-bottom: none; }
+
+/* Judul Section dengan Nomor */
+.section-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.section-number {
+    background-color: #e0e7ff;
+    color: #6366F1;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
 }
 
 .form-section h2 {
-    font-size: 1.25rem; /* 20px */
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+/* --- 4. INPUT FIELDS (Modern Style) --- */
+.form-group { margin-bottom: 1.5rem; }
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
     font-weight: 600;
-    color: #1e293b;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #e2e8f0;
+    color: #374151;
+    margin-bottom: 0.5rem;
 }
 
-/* Form Groups */
-.form-group {
-    margin-bottom: 1.25rem;
+.input-field {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    
+    /* Style Input */
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    
+    outline: none;
+    transition: all 0.3s ease;
 }
 
+.input-field:focus {
+    background-color: #fff;
+    border-color: #8b5cf6; /* Ungu */
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1); /* Glow */
+}
+
+/* Textarea */
+textarea.input-field { resize: vertical; line-height: 1.5; }
+
+/* Grid 2 Kolom */
 .form-group-inline {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
 }
 
-/* Labels */
-.form-group label {
-    display: block;
-    font-size: 0.875rem; /* 14px */
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: #475569; /* text-slate-600 */
+/* Custom Select Arrow (Opsional biar cantik) */
+.select-wrapper { position: relative; }
+.select-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+    font-size: 0.8rem;
 }
+select.input-field { appearance: none; cursor: pointer; }
 
-/* Inputs, Textareas, and Selects */
-input[type="text"],
-input[type="datetime-local"],
-textarea,
-select {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    border: 1px solid #cbd5e1; /* border-slate-300 */
+/* --- 5. FILE INPUT STYLING --- */
+.file-input {
+    padding: 10px;
+    background: white;
+}
+.file-input::file-selector-button {
+    margin-right: 15px;
+    padding: 8px 16px;
     border-radius: 8px;
-    box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    background-color: #f8fafc;
-}
-
-input[type="text"]:focus,
-input[type="datetime-local"]:focus,
-textarea:focus,
-select:focus {
-    outline: none;
-    border-color: #4f46e5; /* indigo-600 */
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-}
-
-textarea {
-    resize: vertical;
-}
-
-/* File Input */
-input[type="file"] {
-    font-size: 0.9rem;
-    color: #475569;
-}
-input[type="file"]::file-selector-button {
-    font-weight: 500;
-    border: 1px solid #e2e8f0;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    background-color: #ffffff;
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
+}
+.file-input::file-selector-button:hover {
+    background-color: #e0e7ff;
+    color: #4f46e5;
+    border-color: #c7d2fe;
+}
+.file-help-text {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    margin-top: 6px;
 }
 
-input[type="file"]::file-selector-button:hover {
-    background-color: #f1f5f9; /* slate-100 */
-}
-
-
-/* Submit Button */
-.form-footer {
-    text-align: right;
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #e2e8f0;
-}
+/* --- 6. SUBMIT BUTTON --- */
+.form-footer { margin-top: 1rem; }
 
 .submit-btn {
-    background-color: #4f46e5; /* indigo-600 */
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 0.8rem 2rem;
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
     border: none;
-    border-radius: 8px;
+    
+    /* Gradient Ungu */
+    background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    transition: all 0.3s ease;
 }
 
 .submit-btn:hover {
-    background-color: #4338ca; /* indigo-700 */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
 }
 
 .submit-btn:active {
     transform: translateY(1px);
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
-    body {
-        padding: 1rem 0.5rem;
-    }
-    .form-container {
-        padding: 1.5rem;
-    }
-    .form-group-inline {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
+    .form-container { padding: 2rem 1.5rem; }
+    .form-group-inline { grid-template-columns: 1fr; gap: 0; }
 }

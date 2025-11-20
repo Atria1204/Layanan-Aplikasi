@@ -3,14 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KampusKonser - SIGN UP</title>
+  <title>KampusKonser - Daftar Akun</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../login/signup.css">
   <style>
-    .password-requirements { font-size: 13px; margin-top: 6px; color: #666; }
-    .password-requirements li { list-style: none; margin: 2px 0; }
-    .valid { color: green; font-weight: 600; text-decoration: line-through; }
-    .invalid { color: red; }
+      /* Style khusus validasi password agar rapi */
+      .password-requirements { 
+          font-size: 12px; 
+          margin-top: 8px; 
+          color: #666; 
+          padding-left: 0;
+      }
+      .password-requirements li { 
+          list-style: none; 
+          margin-bottom: 4px; 
+          display: flex;
+          align-items: center;
+          gap: 6px;
+      }
+      /* Indikator bulat kecil */
+      .password-requirements li::before {
+          content: '•';
+          font-size: 1.2em;
+      }
+      .valid { color: #10b981; text-decoration: none; font-weight: 600; }
+      .invalid { color: #ef4444; }
   </style>
 </head>
 <body class="page-container">
@@ -18,8 +35,11 @@
     <div class="login-form-container">
       <div class="logo-section">
         <img src="https://github.com/TREXBBQPANGGANG/fotologo/blob/main/Gemini_Generated_Image_degowmdegowmdego.png?raw=true" alt="Logo" width="32" height="32">
-        <span class="logo-text">KampusKonser</span>
+        <div class="logo">
+          <span class="logo-blue">Events</span><span class="logo-gray">Sby</span>
+        </div>
       </div>
+      
       <h1 class="heading">SIGN UP</h1>
       <p class="sub-heading">Lengkapi data diri Anda untuk mendaftar</p>
 
@@ -43,20 +63,20 @@
         <div class="form-group">
           <label for="signup-password" class="label">Kata Sandi</label>
           <input type="password" id="signup-password" name="password" placeholder="Masukkan Kata Sandi" class="input-field" required>
+          
+          <ul id="password-reqs" class="password-requirements">
+            <li id="req-length" class="invalid">Minimal 6 karakter</li>
+            <li id="req-upper" class="invalid">Mengandung huruf besar</li>
+            <li id="req-number" class="invalid">Mengandung angka</li>
+          </ul>
         </div>
-
-        <ul id="password-reqs" class="password-requirements">
-          <li id="req-length" class="invalid">Minimal 6 karakter</li>
-          <li id="req-upper" class="invalid">Mengandung huruf besar</li>
-          <li id="req-number" class="invalid">Mengandung angka</li>
-        </ul>
 
         <div class="form-group">
           <label for="signup-password2" class="label">Ulangi Kata Sandi</label>
-          <div style="display:flex; align-items:center; gap:8px;">
+          <div style="position: relative;">
             <input type="password" id="signup-password2" name="password2" placeholder="Masukkan ulang kata sandi" class="input-field" required>
-            <span id="password-match-msg" style="font-size:13px;"></span>
           </div>
+          <span id="password-match-msg" style="font-size:13px; margin-top:4px; display:block;"></span>
         </div>
 
         <button type="submit" class="submit-button">Sign Up</button>
@@ -64,13 +84,15 @@
       </form>
 
       <div class="login-link-container">
-        Sudah punya akun? <br>
-        <a href="login.html" class="login-link">Login</a>
+        Sudah punya akun? 
+        <br> <a href="login.html" class="login-link">Login</a>
       </div>
-      </div>
+    </div>
+
     <div class="visual-container">
-      </div>
+    </div>
   </div>
+
   <script type="module" src="../src/signup.js"></script>
 </body>
 </html>

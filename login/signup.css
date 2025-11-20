@@ -1,25 +1,40 @@
-/* General Styling */
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f8fafc;
-    color: #1f2937;
-    margin: 0;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-.page-container {
+/* General Styling - SAMA PERSIS DENGAN LOGIN.CSS */
+body {
+    font-family: 'Inter', sans-serif;
+    color: #1f2937;
+    margin: 0;
+    
+    /* Animasi Background Pastel */
+    background: linear-gradient(-45deg, #e8e6f8, #f0e9f8, #f3f0ff, #e6f0fa);
+    background-size: 400% 400%;
+    animation: gradient-flow 15s ease-in-out infinite;
+    
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
     padding: 1rem;
 }
 
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Card Container */
 .login-card {
     background-color: #ffffff;
-    border-radius: 2rem;
+    border-radius: 2rem; /* Radius besar sesuai Login */
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     overflow: hidden;
-    max-width: 64rem;
+    max-width: 64rem; /* Lebar Card */
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -34,37 +49,49 @@ body {
     justify-content: center;
 }
 
+/* Logo */
 .logo-section {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 2rem;
 }
-
-.logo {
-    border-radius: 0.5rem;
-}
-
 .logo-text {
     color: #1f2937;
     font-weight: 700;
+    font-size: 1.1rem;
 }
 
+.logo-blue {
+    color: #6366F1; /* Warna ungu dari screenshot */
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.logo-gray {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #1f2937;
+}
+
+/* Typography */
 .heading {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
+    color: #1f2937;
 }
 
 .sub-heading {
     color: #6b7280;
+    margin-bottom: 1.5rem;
 }
 
+/* Form Elements */
 .form {
-    margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.2rem;
 }
 
 .form-group {
@@ -73,203 +100,103 @@ body {
 }
 
 .label {
-    display: block;
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: 500;
-    color: #374151;
+    font-family: 'Inter', sans-serif;
+    color: #333333;
+    display: block;
+    margin-bottom: 6px;
 }
 
+/* --- INPUT FIELD: COPY DARI LOGIN.CSS --- */
 .input-field {
     margin-top: 0.25rem;
     display: block;
     width: 100%;
-    border-radius: 0.5rem;
-    border-color: #d1d5db;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    padding: 0.5rem 0.75rem;
-    outline: 2px solid transparent;
-    outline-offset: 2px;
+    
+    /* Style dasar sama persis login */
+    border: 1px solid #e0e0e0;
+    background-color: #fafafa;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 16px;
+    font-family: inherit;
+    
+    outline: none;
+    transition: all 0.3s ease-in-out;
 }
 
 .input-field:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 1px #6366f1;
+    border-color: #8b5cf6; /* Ungu */
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    background-color: #ffffff;
 }
 
-.input-with-icon {
-    position: relative;
-    margin-top: 0.25rem;
-}
-
-.icon-container {
-    position: absolute;
-    inset: 0 0 0 auto;
-    padding-right: 0.75rem;
-    display: flex;
-    align-items: center;
-    color: #9ca3af;
-}
-
-.icon {
-    width: 1.25rem;
-    height: 1.25rem;
-}
-
+/* --- TOMBOL: COPY DARI LOGIN.CSS --- */
 .submit-button {
+    border: none;
     width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 9999px;
+    padding: 14px 16px;
+    border-radius: 10px; /* Radius sama dengan input */
+    
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
     font-weight: 600;
     color: #ffffff;
-    background-color: #7c3aed;
-    transition-property: background-color;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-    border: none;
+    
+    /* Gradient Ungu */
+    background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-top: 10px;
 }
 
 .submit-button:hover {
-    background-color: #6d28d9;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
 }
 
+.submit-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(139, 92, 246, 0.2);
+}
+
+/* Link Login */
 .login-link-container {
-    margin-top: 1.5rem;
     text-align: center;
-    font-size: 0.875rem;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-top: 24px;
 }
 
 .login-link {
-    font-weight: 500;
-    color: #7c3aed;
-    transition-property: color;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
+    color: #8b5cf6;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
 }
 
 .login-link:hover {
     color: #6d28d9;
+    text-decoration: underline;
 }
 
-.separator {
-    position: relative;
-    margin-top: 1.5rem;
-    text-align: center;
-}
-
-.separator::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: #d1d5db;
-}
-
-.separator-text {
-    position: relative;
-    background-color: #ffffff;
-    padding: 0 0.5rem;
-    font-size: 0.875rem;
-    color: #6b7280;
-    z-index: 1;
-    
-}
-
-.social-login-container {
-    margin-top: 1.5rem;
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-}
-
-.social-icon-link {
-    transition-property: transform;
-    transition-duration: 150ms;
-    transition-timing-function: ease-in-out;
-}
-
-.social-icon-link:hover {
-    transform: scale(1.1);
-}
-
-.social-icon {
-    width: 2rem;
-    height: 2rem;
-}
-
-/* Visual Section */
+/* --- VISUAL KANAN --- */
 .visual-container {
     flex: 1;
-    display: none;
+    display: none; /* Hidden di Mobile */
+    
+    /* Gradasi Ungu Polos (Sesuai screenshot Sign Up kamu) */
+    background-image: url("../bg_home.jpg");
+    
+    object-fit: cover;
     align-items: center;
     justify-content: center;
-    padding: 2rem 3rem;
     position: relative;
-    overflow: hidden;
-    border-radius: 2rem;
-    background: linear-gradient(to bottom, #9333ea, #4c1d95);
-    color: #ffffff;
-}
-
-.visual-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-}
-
-.visual-bg-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.5;
-}
-
-.visual-card {
-    z-index: 1;
-    text-align: center;
-    position: relative;
-    padding: 3rem;
-    background-color: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border-radius: 1.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-.visual-heading {
-    font-size: 1.875rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.visual-text {
-    font-size: 0.875rem;
-}
-
-.carousel-dots {
-    position: absolute;
-    bottom: 2rem;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    z-index: 2;
-}
-
-.dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 9999px;
-    background-color: #ffffff;
-}
-
-.active-dot {
-    opacity: 1;
-}
-
-.inactive-dot {
-    opacity: 0.5;
+    background-size: cover
 }
 
 /* Media Queries */
@@ -281,11 +208,3 @@ body {
         display: flex;
     }
 }
-.valid {
-  color: green;
-}
-.invalid {
-  color: red;
-}
-
-

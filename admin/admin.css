@@ -1,148 +1,39 @@
+/* --- ADMIN STYLE --- */
+/* Kita pakai Font Inter dari Google Fonts */
 body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f8fafc;
+    font-family: 'Inter', sans-serif;
+    
+    /* Background Animasi (Sama dengan halaman lain biar konsisten) */
+    background: linear-gradient(-45deg, #e8e6f8, #f0e9f8, #f3f0ff, #e6f0fa);
+    background-size: 400% 400%;
+    animation: gradient-flow 15s ease-in-out infinite;
+    
+    color: #1f2937;
 }
 
-.login-container {
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-    background-color: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+@keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-.login-box {
-    flex: 1;
-    padding: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+/* Custom Scrollbar (Biar rapi) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
-.login-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.login-header img {
-    width: 150px;
-    margin-bottom: 20px;
-}
-
-.login-header h2 {
-    font-size: 28px;
-    font-weight: 600;
-    margin: 0;
-    color: #1e293b;
-}
-
-.login-header p {
-    font-size: 16px;
-    color: #64748b;
-    margin-top: 10px;
-}
-
-.input-group {
-    margin-bottom: 20px;
-}
-
-.input-group label {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 8px;
-    color: #334155;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 14px;
-    box-sizing: border-box;
-}
-
-.input-group input::placeholder {
-    color: #94a3b8;
-}
-
-.form-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    font-size: 14px;
-}
-
-.remember-me {
-    display: flex;
-    align-items: center;
-}
-
-.remember-me input {
-    margin-right: 8px;
-}
-
-.remember-me label, .forgot-password, .signup-link a {
-    color: #0ea5e9;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.forgot-password:hover, .signup-link a:hover {
-    text-decoration: underline;
-}
-
-.login-button {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    background-color: #0ea5e9;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.login-button:hover {
-    background-color: #0284c7;
-}
-
-.signup-link {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 14px;
-    color: #64748b;
-}
-
-.image-container {
-    flex: 1;
-    background-color: #e0f2fe;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.image-container img {
-    max-width: 80%;
-    height: auto;
-}
-
-@media (max-width: 992px) {
-    .image-container {
-        display: none;
-    }
-    .login-box {
-        padding: 40px;
-    }
+/* Style Tambahan untuk Tab Aktif (Digunakan bersama Tailwind) */
+.tab-link.active-tab {
+    color: #4f46e5; /* Brand Purple */
+    border-bottom-color: #4f46e5;
 }
