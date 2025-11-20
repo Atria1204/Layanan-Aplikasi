@@ -82,8 +82,19 @@ async function fetchAndDisplayUserEvents(user) {
     }
 
     myEventsListEl.innerHTML = '';
+    if (events.length === 0) {
+        myEventsListEl.innerHTML = '<p>Anda belum pernah mensubmit event.</p>';
+        return;
+    }
+    
     events.forEach(event => {
-        myEventsListEl.innerHTML += createEventItemHTML(event);
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = createEventItemHTML(event);
+        const eventElement = tempDiv.firstElementChild;
+        if (eventElement) {
+            eventElement.setAttribute('data-event-id', event.id);
+            myEventsListEl.appendChild(eventElement);
+        }
     });
 }
 
@@ -104,7 +115,7 @@ function createEventItemHTML(event) {
     const date = new Date(event.created_at).toLocaleDateString('id-ID');
 
     return `
-        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg" data-event-id="${event.id}">
             <div class="flex items-center">
                 <img src="${event.image_url || 'https://placehold.co/64x64/e2e8f0/64748b?text=Img'}" alt="Event Image" class="w-16 h-16 rounded-md mr-4 object-cover">
                 <div>
@@ -124,30 +135,193 @@ function createEventItemHTML(event) {
     `;
 }
 
+function handleViewEvent(eventId) {
+    // Navigate to event detail page
+    window.location.href = `/main/event-detail.html?id=${eventId}`;
+}
+
+function handleEditEvent(eventId) {
+    // Navigate to submit event page with edit mode
+    window.location.href = `/user/submit_event.html?edit=${eventId}`;
+}
+
 async function handleDeleteEvent(eventId) {
     if (!confirm('Apakah Anda yakin ingin menghapus event ini secara permanen?')) return;
 
-    const { error } = await supabase.from('events').delete().eq('id', eventId);
-    if (error) {
-        alert('Gagal menghapus event.');
-    } else {
-        alert('Event berhasil dihapus.');
-        fetchAndDisplayUserEvents(currentUser);
+    // Hapus dari DOM langsung untuk feedback visual (optimistic update)
+    const eventElement = myEventsListEl.querySelector(`[data-event-id="${eventId}"]`);
+    if (eventElement) {
+        eventElement.style.transition = 'opacity 0.3s';
+        eventElement.style.opacity = '0.5';
+    }
+
+    try {
+        console.log('=== DELETE EVENT START ===');
+        console.log('Event ID:', eventId);
+        console.log('User ID:', currentUser.id);
+        
+        // Verifikasi event milik user sebelum hapus
+        const { data: verifyData, error: verifyError } = await supabase
+            .from('events')
+            .select('id, user_id, title')
+            .eq('id', eventId)
+            .single();
+        
+        console.log('Verify result:', { verifyData, verifyError });
+        
+        if (verifyError || !verifyData) {
+            console.error('Event tidak ditemukan atau error:', verifyError);
+            if (eventElement) {
+                eventElement.style.opacity = '1';
+            }
+            alert('Event tidak ditemukan.');
+            await fetchAndDisplayUserEvents(currentUser);
+            return;
+        }
+        
+        if (verifyData.user_id !== currentUser.id) {
+            console.error('Permission denied. Event user_id:', verifyData.user_id, 'Current user:', currentUser.id);
+            if (eventElement) {
+                eventElement.style.opacity = '1';
+            }
+            alert('Anda tidak memiliki izin untuk menghapus event ini.');
+            return;
+        }
+        
+        console.log('Event verified. Proceeding with delete...');
+        
+        // Hapus event dengan select untuk melihat hasilnya
+        const { data: deletedData, error: deleteError } = await supabase
+            .from('events')
+            .delete()
+            .eq('id', eventId)
+            .eq('user_id', currentUser.id)
+            .select();
+            
+        console.log('Delete operation result:', { deletedData, deleteError });
+            
+        if (deleteError) {
+            console.error('Delete error:', deleteError);
+            if (eventElement) {
+                eventElement.style.opacity = '1';
+            }
+            alert('Gagal menghapus event: ' + deleteError.message + '\n\nError code: ' + deleteError.code + '\n\nSilakan periksa RLS policy di Supabase.');
+            return;
+        }
+
+        // Cek apakah ada data yang dihapus
+        if (!deletedData || deletedData.length === 0) {
+            console.warn('No rows deleted! This usually means RLS policy is blocking the delete.');
+            if (eventElement) {
+                eventElement.style.opacity = '1';
+            }
+            alert('Gagal menghapus event. Tidak ada baris yang terhapus.\n\nKemungkinan masalah:\n1. RLS Policy di Supabase tidak mengizinkan DELETE\n2. Event sudah dihapus sebelumnya\n\nSilakan periksa RLS policy di Supabase Dashboard.');
+            
+            // Refresh untuk memastikan data terbaru
+            await fetchAndDisplayUserEvents(currentUser);
+            return;
+        }
+
+        console.log('Event deleted successfully:', deletedData);
+        
+        // Verifikasi sekali lagi bahwa event benar-benar terhapus
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const { data: checkData, error: checkError } = await supabase
+            .from('events')
+            .select('id')
+            .eq('id', eventId)
+            .maybeSingle();
+        
+        console.log('Verification check:', { checkData, checkError });
+        
+        if (checkData) {
+            console.error('Event masih ada setelah delete! RLS policy mungkin tidak bekerja dengan benar.');
+            if (eventElement) {
+                eventElement.style.opacity = '1';
+            }
+            alert('Event masih ada setelah penghapusan.\n\nIni menunjukkan masalah dengan RLS policy di Supabase.\n\nSilakan:\n1. Buka Supabase Dashboard\n2. Pergi ke Table Editor > events > Policies\n3. Pastikan ada policy DELETE yang mengizinkan user menghapus event miliknya sendiri');
+            await fetchAndDisplayUserEvents(currentUser);
+            return;
+        }
+        
+        // Berhasil! Hapus dari DOM
+        console.log('=== DELETE EVENT SUCCESS ===');
+        if (eventElement) {
+            setTimeout(() => {
+                eventElement.remove();
+            }, 300);
+        }
+        
+        // Refresh daftar event untuk memastikan data terbaru
+        await fetchAndDisplayUserEvents(currentUser);
+        
+        // Tampilkan alert sukses
+        alert('Event berhasil dihapus!');
+        
+    } catch (error) {
+        console.error('=== DELETE EVENT ERROR ===', error);
+        if (eventElement) {
+            eventElement.style.opacity = '1';
+        }
+        alert('Terjadi kesalahan saat menghapus event:\n' + error.message + '\n\nSilakan periksa console untuk detail lebih lanjut.');
     }
 }
 
 async function handleLogout() {
     await supabase.auth.signOut();
-    window.location.href = '/login.html';
+    window.location.href = '/login/login.html';
 }
 
 // --- EVENT LISTENERS ---
-document.addEventListener('DOMContentLoaded', initializeDashboard);
-backButton.addEventListener('click', () => { window.location.href = '/main/home.html'; });
-logoutButton.addEventListener('click', handleLogout);
-myEventsListEl.addEventListener('click', (e) => {
-    const deleteButton = e.target.closest('.btn-delete');
-    if (deleteButton) {
-        handleDeleteEvent(deleteButton.dataset.id);
+document.addEventListener('DOMContentLoaded', () => {
+    initializeDashboard();
+    
+    if (backButton) {
+        backButton.addEventListener('click', () => { window.location.href = '/main/home.html'; });
+    }
+    
+    if (logoutButton) {
+        logoutButton.addEventListener('click', handleLogout);
+    }
+    
+    // Event delegation untuk tombol-tombol di dalam myEventsListEl
+    if (myEventsListEl) {
+        myEventsListEl.addEventListener('click', (e) => {
+            // Handle View button
+            const viewButton = e.target.closest('.btn-lihat');
+            if (viewButton && viewButton.dataset.id) {
+                e.preventDefault();
+                handleViewEvent(viewButton.dataset.id);
+                return;
+            }
+
+            // Handle Edit button
+            const editButton = e.target.closest('.btn-edit');
+            if (editButton && editButton.dataset.id) {
+                e.preventDefault();
+                handleEditEvent(editButton.dataset.id);
+                return;
+            }
+
+            // Handle Delete button - check for both btn-delete class and icon parent
+            const deleteButton = e.target.closest('.btn-delete') || e.target.closest('.btn-hapus');
+            if (deleteButton && deleteButton.dataset.id) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleDeleteEvent(deleteButton.dataset.id);
+                return;
+            }
+            
+            // Handle click on icon inside delete button
+            if (e.target.closest('i.fa-trash-alt')) {
+                const deleteBtn = e.target.closest('.btn-delete') || e.target.closest('.btn-hapus');
+                if (deleteBtn && deleteBtn.dataset.id) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleDeleteEvent(deleteBtn.dataset.id);
+                    return;
+                }
+            }
+        });
     }
 });

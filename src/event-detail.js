@@ -171,8 +171,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (logoutButton) {
         logoutButton.addEventListener('click', async (e) => {
             e.preventDefault();
-            await supabase.auth.signOut();
-            window.location.href = 'index.html';
+            try {
+                const { error } = await supabase.auth.signOut();
+                if (error) {
+                    console.error('Logout error:', error);
+                    alert('Gagal logout: ' + error.message);
+                    return;
+                }
+                // Redirect ke index setelah logout
+                window.location.href = '/index.html';
+            } catch (error) {
+                console.error('Error in logout:', error);
+                alert('Terjadi kesalahan saat logout.');
+            }
         });
     }
 });

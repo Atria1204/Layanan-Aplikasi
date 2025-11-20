@@ -121,7 +121,7 @@ function createEventCard(event) {
     
     // Logika untuk menampilkan tombol aksi
     const actionButtons = event.status === 'pending' ? `
-        <a href="#" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+        <a href="/main/event-detail.html?id=${event.id}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
            <i data-lucide="eye" class="w-4 h-4 mr-2"></i>Detail
         </a>
         <button data-id="${event.id}" data-action="approve" class="action-btn inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
@@ -130,10 +130,16 @@ function createEventCard(event) {
          <button data-id="${event.id}" data-action="reject" class="action-btn inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
            <i data-lucide="x" class="w-4 h-4 mr-2"></i>Tolak
         </button>
+        <button data-id="${event.id}" data-action="delete" class="action-btn-delete inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-800 hover:bg-red-900">
+           <i data-lucide="trash-2" class="w-4 h-4 mr-2"></i>Hapus
+        </button>
     ` : `
-        <a href="#" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+        <a href="/main/event-detail.html?id=${event.id}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
            <i data-lucide="eye" class="w-4 h-4 mr-2"></i>Detail
         </a>
+        <button data-id="${event.id}" data-action="delete" class="action-btn-delete inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-800 hover:bg-red-900">
+           <i data-lucide="trash-2" class="w-4 h-4 mr-2"></i>Hapus
+        </button>
     `;
 
     // Format tanggal
@@ -202,13 +208,91 @@ async function handleUpdateStatus(eventId, newStatus) {
         fetchEventCounts();
         // Ambil filter yang sedang aktif dari tab
         const activeTab = tabsNav.querySelector('.border-indigo-600');
-        const currentFilter = activeTab.dataset.status || 'all';
+        const currentFilter = activeTab ? activeTab.dataset.status : 'all';
         fetchAndDisplayEvents(currentFilter);
     }
 }
 
-// Event listener untuk tombol approve/reject menggunakan event delegation
+// Fungsi untuk menghapus event (admin only)
+async function handleDeleteEvent(eventId) {
+    const confirmed = confirm('Apakah Anda yakin ingin menghapus event ini secara permanen? Tindakan ini tidak dapat dibatalkan.');
+    if (!confirmed) return;
+
+    try {
+        console.log('=== ADMIN DELETE EVENT START ===');
+        console.log('Event ID:', eventId);
+        
+        // Hapus event dengan select untuk melihat hasilnya
+        const { data: deletedData, error: deleteError } = await supabase
+            .from('events')
+            .delete()
+            .eq('id', eventId)
+            .select();
+        
+        console.log('Delete operation result:', { deletedData, deleteError });
+        
+        if (deleteError) {
+            console.error('Delete error:', deleteError);
+            alert('Gagal menghapus event: ' + deleteError.message + '\n\nError code: ' + deleteError.code + '\n\nSilakan periksa RLS policy di Supabase.');
+            return;
+        }
+
+        // Cek apakah ada data yang dihapus
+        if (!deletedData || deletedData.length === 0) {
+            console.warn('No rows deleted! This usually means RLS policy is blocking the delete.');
+            alert('Gagal menghapus event. Tidak ada baris yang terhapus.\n\nKemungkinan masalah:\n1. RLS Policy di Supabase tidak mengizinkan DELETE untuk admin\n2. Event sudah dihapus sebelumnya\n\nSilakan periksa RLS policy di Supabase Dashboard.');
+            
+            // Refresh untuk memastikan data terbaru
+            await fetchEventCounts();
+            const activeTab = tabsNav.querySelector('.border-indigo-600');
+            const currentFilter = activeTab ? activeTab.dataset.status : 'all';
+            await fetchAndDisplayEvents(currentFilter);
+            return;
+        }
+
+        console.log('Event deleted successfully:', deletedData);
+        
+        // Verifikasi sekali lagi bahwa event benar-benar terhapus
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const { data: checkData, error: checkError } = await supabase
+            .from('events')
+            .select('id')
+            .eq('id', eventId)
+            .maybeSingle();
+        
+        console.log('Verification check:', { checkData, checkError });
+        
+        if (checkData) {
+            console.error('Event masih ada setelah delete! RLS policy mungkin tidak bekerja dengan benar.');
+            alert('Event masih ada setelah penghapusan.\n\nIni menunjukkan masalah dengan RLS policy di Supabase.\n\nSilakan:\n1. Buka Supabase Dashboard\n2. Pergi ke Table Editor > events > Policies\n3. Pastikan ada policy DELETE yang mengizinkan admin menghapus semua event');
+            await fetchEventCounts();
+            const activeTab = tabsNav.querySelector('.border-indigo-600');
+            const currentFilter = activeTab ? activeTab.dataset.status : 'all';
+            await fetchAndDisplayEvents(currentFilter);
+            return;
+        }
+        
+        console.log('=== ADMIN DELETE EVENT SUCCESS ===');
+        
+        // Refresh data di halaman
+        await fetchEventCounts();
+        // Ambil filter yang sedang aktif dari tab
+        const activeTab = tabsNav.querySelector('.border-indigo-600');
+        const currentFilter = activeTab ? activeTab.dataset.status : 'all';
+        await fetchAndDisplayEvents(currentFilter);
+        
+        // Tampilkan alert sukses
+        alert('Event berhasil dihapus!');
+        
+    } catch (error) {
+        console.error('=== ADMIN DELETE EVENT ERROR ===', error);
+        alert('Terjadi kesalahan saat menghapus event:\n' + error.message + '\n\nSilakan periksa console untuk detail lebih lanjut.');
+    }
+}
+
+// Event listener untuk tombol approve/reject/delete menggunakan event delegation
 eventListContainer.addEventListener('click', (e) => {
+    // Handle approve/reject buttons
     const button = e.target.closest('.action-btn');
     if (button) {
         e.preventDefault();
@@ -219,6 +303,19 @@ eventListContainer.addEventListener('click', (e) => {
         } else if (action === 'reject') {
             handleUpdateStatus(eventId, 'rejected');
         }
+        return;
+    }
+
+    // Handle delete button
+    const deleteButton = e.target.closest('.action-btn-delete');
+    if (deleteButton) {
+        e.preventDefault();
+        e.stopPropagation();
+        const eventId = deleteButton.dataset.id;
+        if (eventId) {
+            handleDeleteEvent(eventId);
+        }
+        return;
     }
 });
 
